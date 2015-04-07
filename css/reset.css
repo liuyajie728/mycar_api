@@ -1,0 +1,23 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,hgroup,label,button,legend,input,textarea,p,pre,span,blockquote,th,td,fieldset,img,a,figure,figcaption,video{font-family:inherit;font-size:inherit;font-weight:inherit;margin:0;border:0;padding:0;outline:0;vertical-align:baseline;text-align:left;}
+html{-webkit-text-size-adjust:none;/* 禁用iPhone中Safari的字号自动调整 */}
+header,footer,hgroup,figure,nav,article,aside{display:block;}
+table{border-collapse:collapse;border-spacing:0;width:100%;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+ol,ul,li{list-style:none}
+caption,th{text-align:center}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+strong{color:firebrick;}
+
+label,.label,input,textarea,select{display:block;}
+input,textarea,select{*font-size:100%}
+.inline input,.inline label,.inline button{display:inline;}
+
+a{text-decoration:none}
+a img{border:0;}
+body{font-family:verdana,arial,sans-serif;position:relative;overflow-x:hidden;}
+.container{position:relative;overflow:hidden;}
+
+.hide{display:none;}

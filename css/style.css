@@ -1,0 +1,7 @@
+@charset "utf-8";
+@viewport{width:device-width;}
+
+body,form{color:#6d6d72;background:#EFEFF4;font-size:28px;line-height:1;}
+h1,h2,h3,h4{font-family:STHeitiSC-Light,"微软雅黑",arial,sans-serif;}
+	a{color:#4cb5ff;}
+	a:hover{}
