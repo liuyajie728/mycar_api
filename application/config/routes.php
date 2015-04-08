@@ -14,7 +14,7 @@
 	$route['station/create'] = 'station/create';
 	$route['station/(:any)'] = 'station/index/$1';
 	$route['station'] = 'station/index';
-	
+
 	/* User 会员 */
 	$route['user/edit/(:any)'] = 'user/edit/$1';
 	$route['user/delete/(:any)'] = 'user/delete/$1';
@@ -22,7 +22,7 @@
 	$route['user/upload'] = 'user/upload';
 	$route['user/(:any)'] = 'user/index/$1';
 	$route['user'] = 'user/index';
-	
+
 	/* Sms 短信 */
 	$route['sms/send/(:any)'] = 'sms/send/$1';
 	$route['sms/balance'] = 'sms/balance';
@@ -35,6 +35,13 @@
 	$route['coupon/create'] = 'coupon/create';
 	$route['coupon/(:any)'] = 'coupon/index/$1';
 	$route['coupon'] = 'coupon/index';
+
+	/* Stuff 员工 */
+	$route['stuff/edit/(:any)'] = 'stuff/edit/$1';
+	$route['stuff/delete/(:any)'] = 'stuff/delete/$1';
+	$route['stuff/create'] = 'stuff/create';
+	$route['stuff/(:any)'] = 'stuff/index/$1';
+	$route['stuff'] = 'stuff/index';
 
 	$route['default_controller'] = 'index';
 	$route['404_override'] = '';

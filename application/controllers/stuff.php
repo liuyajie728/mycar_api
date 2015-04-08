@@ -27,7 +27,7 @@
 			//header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
-			
+
 			$this->output->enable_profiler(TRUE);
 		}
 

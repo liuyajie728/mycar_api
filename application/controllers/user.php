@@ -7,8 +7,8 @@
 		{
 			parent::__construct();
 			
-			$this->load->library('token');
-			$this->token->valid($this->input->get('token'));
+			//$this->load->library('token');
+			//$this->token->valid($this->input->get('token'));
 
 			$this->load->model('user_model');
 		}
@@ -31,7 +31,7 @@
 			$json_array = json_decode($json_content);
 			$this->user_model->insert();
 		}
-		
+
 		public function edit($user_id)
 		{
 			$this->output->enable_profiler(TRUE);
