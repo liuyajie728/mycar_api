@@ -62,7 +62,7 @@
 
 			if ($this->db->insert($this->table_name, $data)):
 				return $token;
-				
+
 			else:
 				return FALSE;
 			endif;

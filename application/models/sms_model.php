@@ -3,7 +3,7 @@
 	{
 		public $table_name = 'sms';
 		
-		//初始化模型
+		// Initiate database.
 		public function __construct()
 		{
 			$this->load->database();
@@ -23,6 +23,26 @@
 				$query = $this->db->get_where($this->table_name, $data);
 				return $query->row_array();
 
+			endif;
+		}
+
+		/**
+		* Record sms that is sent successfully.
+		*
+		* @since always
+		* @param int $mobile Mobile number that receives the content.
+		* @param string $content Contents that should be sent via sms.
+		* @return int Sms ID
+		*/
+		public function create($mobile, $content, $type)
+		{
+			$data = array(
+				'mobile' => $mobile,
+				'content' => $content,
+				'type' => $type
+			);
+			if($this->db->insert($this->table_name, $data)):
+				return $this->db->insert_id();
 			endif;
 		}
 	}

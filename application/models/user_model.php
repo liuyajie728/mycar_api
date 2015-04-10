@@ -33,7 +33,7 @@
 				'nickname' => $this->input->post('nickname'),
 				'logo_url' => $image_url
 			);
-		
+
 			if($this->db->insert($this->table_name, $data)):
 				return $this->db->insert_id();
 			endif;

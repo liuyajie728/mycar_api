@@ -7,8 +7,8 @@
 		{
 			parent::__construct();
 			
-			$this->load->library('token');
-			$this->token->valid($this->input->get('token'));
+			//$this->load->library('token');
+			//$this->token->valid($this->input->get('token'));
 
 			$this->load->model('sms_model');
 		}
@@ -31,15 +31,35 @@
 			$json_array = json_decode($json_content);
 			$this->sms_model->insert();
 		}
-		
-		// 调用sms类发送短信
-		public function send($mobile, $content = '测试内容【森思壮】')
+
+		// 调用luosimao类发送短信
+		public function send()
 		{
+			$data['title'] = '短信发送';
+			$this->load->view('templates/header', $data);
+			$this->load->view('sms/create', $data);
+			$this->load->view('templates/footer');
+
+			$type = $this->input->post('type'); // 短信类型
+			$mobile = $this->input->post('mobile'); // 表单提供的手机号
+			$captcha = random_string('numeric', 4); // 生成4位随机数字
+			$content = '验证码:'. $captcha .'【哎油】';
+			echo $mobile, $content;
+
 			$this->load->library('luosimao');
 			$result = $this->luosimao->send($mobile, $content);
-			var_dump($result);
+			$result_array = json_decode($result);
+			if ($result_array->error == 0): // If sms sent successfully.
+				$output['status'] = 200;
+				$output['content'] = 'Sms sent successfully.';
+				$output['sms_id'] = $this->sms_model->create($mobile, $content, $type);
+				$output_json = json_encode($output);
+				echo $output_json;
+			endif;
+
+			$this->output->enable_profiler(TRUE);
 		}
-		
+
 		// 调用sms类查询短信余额
 		public function balance()
 		{

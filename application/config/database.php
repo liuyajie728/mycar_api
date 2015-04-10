@@ -1,7 +1,7 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 
-	$active_group = 'aliyun_rds';
+	$active_group = 'local';
 	$active_record = TRUE;
 
 	/* 阿里云RDS数据库 */

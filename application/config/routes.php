@@ -25,6 +25,7 @@
 
 	/* Sms 短信 */
 	$route['sms/send/(:any)'] = 'sms/send/$1';
+	$route['sms/send'] = 'sms/send';
 	$route['sms/balance'] = 'sms/balance';
 	$route['sms/(:any)'] = 'sms/index/$1';
 	$route['sms'] = 'sms/index';
