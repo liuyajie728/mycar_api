@@ -1,7 +1,7 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 
-	$active_group = 'local';
+	$active_group = 'aliyun_rds';
 	$active_record = TRUE;
 
 	/* 阿里云RDS数据库 */
@@ -26,7 +26,7 @@
 	$db['local']['username'] = 'root';
 	$db['local']['password'] = '';
 	$db['local']['database'] = 'mycar';
-	$db['local']['dbdriver'] = 'mysql';
+	$db['local']['dbdriver'] = 'mysqli';
 	$db['local']['dbprefix'] = '';
 	$db['local']['pconnect'] = TRUE;
 	$db['local']['db_debug'] = TRUE;
