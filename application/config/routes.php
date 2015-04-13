@@ -16,6 +16,7 @@
 	$route['station'] = 'station/index';
 
 	/* User 会员 */
+	$route['user/login'] = 'user/login';
 	$route['user/edit/(:any)'] = 'user/edit/$1';
 	$route['user/delete/(:any)'] = 'user/delete/$1';
 	$route['user/create'] = 'user/create';
@@ -25,7 +26,6 @@
 
 	/* Sms 短信 */
 	$route['sms/send/(:any)'] = 'sms/send/$1';
-	$route['sms/send'] = 'sms/send';
 	$route['sms/balance'] = 'sms/balance';
 	$route['sms/(:any)'] = 'sms/index/$1';
 	$route['sms'] = 'sms/index';

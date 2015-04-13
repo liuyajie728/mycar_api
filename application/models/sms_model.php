@@ -3,14 +3,19 @@
 	{
 		public $table_name = 'sms';
 		
-		// Initiate database.
+		// Initiate database
 		public function __construct()
 		{
 			$this->load->database();
 		}
-		
-		//获取所有短信，或根据id获取特定短信
-		public function select($sms_id = NULL)
+
+		/** Get all smss, or get certain sms by sms_id
+		*
+		* @since always
+		* @param int $sms_id
+		* @return array
+		*/
+		public function get($sms_id = NULL)
 		{
 			if ($sms_id === NULL):
 				$this->db->order_by('time_sent desc'); // 按发送时间排序，最近发送的优先
@@ -41,7 +46,7 @@
 				'content' => $content,
 				'type' => $type
 			);
-			if($this->db->insert($this->table_name, $data)):
+			if ($this->db->insert($this->table_name, $data)):
 				return $this->db->insert_id();
 			endif;
 		}

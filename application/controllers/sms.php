@@ -1,14 +1,20 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
-
+	
+	/**
+	* Sms Class
+	*
+	* @author Kamas 'Iceberg' Lau <kamaslau@outlook.com>
+	* @copyright SenseStrong <www.sensestrong.com>
+	*/
 	class Sms extends CI_Controller
 	{
 		public function __construct()
 		{
 			parent::__construct();
 			
-			//$this->load->library('token');
-			//$this->token->valid($this->input->get('token'));
+			// $this->load->library('token');
+			// $this->token->valid($this->input->get('token'));
 
 			$this->load->model('sms_model');
 		}
@@ -35,29 +41,33 @@
 		// 调用luosimao类发送短信
 		public function send()
 		{
-			$data['title'] = '短信发送';
-			$this->load->view('templates/header', $data);
-			$this->load->view('sms/create', $data);
-			$this->load->view('templates/footer');
-
-			$type = $this->input->post('type'); // 短信类型
-			$mobile = $this->input->post('mobile'); // 表单提供的手机号
-			$captcha = random_string('numeric', 4); // 生成4位随机数字
-			$content = '验证码:'. $captcha .'【哎油】';
-			echo $mobile, $content;
+			// generate sms content
+			$mobile = $this->input->post('mobile'); // mobile number
+			$type = $this->input->post('type'); // sms type
+			switch ($type) // generate $content according to $type value
+			{
+				case 1: // for register\login\password reset\email binding sms
+					$captcha = random_string('numeric', 4); // generate 4 intergers' string
+					$content = '验证码:'. $captcha .'【哎油】';
+					break;
+				case 2: // for order delivery
+					$content = '';
+					break;
+				default:
+					$captcha = random_string('numeric', 4); // generate 4 intergers' string
+					$content = '验证码:'. $captcha .'【哎油】';
+			}
 
 			$this->load->library('luosimao');
 			$result = $this->luosimao->send($mobile, $content);
 			$result_array = json_decode($result);
-			if ($result_array->error == 0): // If sms sent successfully.
+			if ($result_array->error == 0): // if sms sent successfully.
 				$output['status'] = 200;
 				$output['content'] = 'Sms sent successfully.';
 				$output['sms_id'] = $this->sms_model->create($mobile, $content, $type);
 				$output_json = json_encode($output);
 				echo $output_json;
 			endif;
-
-			$this->output->enable_profiler(TRUE);
 		}
 
 		// 调用sms类查询短信余额

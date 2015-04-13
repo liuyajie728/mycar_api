@@ -1,18 +1,31 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
-
+	
+	/**
+	* User Class
+	*
+	* @author Kamas 'Iceberg' Lau <kamaslau@outlook.com>
+	* @copyright SenseStrong <www.sensestrong.com>
+	*/
 	class User extends CI_Controller
 	{
 		public function __construct()
 		{
 			parent::__construct();
-			
+
 			//$this->load->library('token');
 			//$this->token->valid($this->input->get('token'));
 
 			$this->load->model('user_model');
+			$this->load->model('sms_model');
 		}
-
+		
+		/**
+		* Get the information of users or one certain user.
+		*
+		* @since always
+		* @return array Information of user(s)
+		*/
 		public function index($user_id = NULL)
 		{
 			$output['status'] = 200;
@@ -32,12 +45,64 @@
 			$this->user_model->insert();
 		}
 
+		/**
+		* User profile edit.
+		*
+		* @since always
+		* @return boolean Result of profile edit.
+		*/
 		public function edit($user_id)
 		{
 			$this->output->enable_profiler(TRUE);
 		}
+
+		/**
+		* User Login
+		*
+		* @since always
+		* @return boolean Result of login.
+		*/
+		private function login()
+		{
+			$mobile = $this->input->post('mobile');
+			$captcha = $this->input->post('captcha');
+			$sms_id = $this->input->post('sms_id');
+			
+			// 根据sms_id获取短信记录
+			$sms_result = $this->sms_model->get($sms_id);
+			// 验证mobile和captcha是否与短信中内容相符
+			if (($mobile == $sms_result['mobile']) && strpos($sms_result['content'], $captcha)):
+				$output['status'] = 200;
+				// 若相符，则检查该mobile是否已注册
+				$user_id = $this->user_model->is_registered('mobile', $mobile);
+				if(empty($user_id): // 若未注册，创建用户
+					$user_id = $this->user_mode->create();
+				endif;
+				
+				// 根据user_id获取并返回用户信息
+				$user_info = $this->user_model->get($user_id);
+				$output['content'] = $user_info;
+
+			else:
+				// 若不符，则返回失败值
+				$output['status'] = 400;
+				$output['content'] = 'Captcha failed.';
+			
+			endif;
+
+			$output_json = json_encode($output);
+			echo $output_json;
+			
+			$this->output->enable_profiler(TRUE);
+		}
 		
-		public function create()
+		/**
+		* User register or create
+		*
+		* @since always
+		* @return boolean Result of creation.
+		*/
+		private function create()
 		{	
 			$data['class'] = 'user';
 			$data['title'] = '创建用户';
@@ -110,8 +175,6 @@
 
 				endif;
 			endif;
-			
-			$this->output->enable_profiler(TRUE);
 		}
 	}
 

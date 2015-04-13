@@ -9,7 +9,7 @@
 	$db['aliyun_rds']['username'] = 'mycar';
 	$db['aliyun_rds']['password'] = 'mycar2014';
 	$db['aliyun_rds']['database'] = 'mycar';
-	$db['aliyun_rds']['dbdriver'] = 'mysql';
+	$db['aliyun_rds']['dbdriver'] = 'mysqli';
 	$db['aliyun_rds']['dbprefix'] = '';
 	$db['aliyun_rds']['pconnect'] = TRUE;
 	$db['aliyun_rds']['db_debug'] = TRUE;
