@@ -22,20 +22,11 @@
 		public function index($sms_id = NULL)
 		{
 			$output['status'] = 200;
-			$output['content'] = $this->sms_model->select($sms_id);
+			$output['content'] = $this->sms_model->get($sms_id);
 
 			//header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
-			
-			$this->output->enable_profiler(TRUE);
-		}
-
-		// 未完成，将json数据存入mysql
-		public function json2mysql($json_content)
-		{
-			$json_array = json_decode($json_content);
-			$this->sms_model->insert();
 		}
 
 		// 调用luosimao类发送短信
@@ -51,7 +42,7 @@
 					$content = '验证码:'. $captcha .'【哎油】';
 					break;
 				case 2: // for order delivery
-					$content = '';
+					$content = '您的订单已支付成功！';
 					break;
 				default:
 					$captcha = random_string('numeric', 4); // generate 4 intergers' string
@@ -61,7 +52,7 @@
 			$this->load->library('luosimao');
 			$result = $this->luosimao->send($mobile, $content);
 			$result_array = json_decode($result);
-			if ($result_array->error == 0): // if sms sent successfully.
+			if ($result_array->error === 0): // if sms sent successfully.
 				$output['status'] = 200;
 				$output['content'] = 'Sms sent successfully.';
 				$output['sms_id'] = $this->sms_model->create($mobile, $content, $type);

@@ -6,7 +6,7 @@
 		public function __construct()
 		{
 			parent::__construct();
-			
+
 			//$this->load->library('token');
 			//$this->token->valid($this->input->get('token'));
 

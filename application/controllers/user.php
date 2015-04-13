@@ -16,8 +16,8 @@
 			//$this->load->library('token');
 			//$this->token->valid($this->input->get('token'));
 
-			$this->load->model('user_model');
 			$this->load->model('sms_model');
+			$this->load->model('user_model');
 		}
 		
 		/**
@@ -29,22 +29,13 @@
 		public function index($user_id = NULL)
 		{
 			$output['status'] = 200;
-			$output['content'] = $this->user_model->select($user_id);
+			$output['content'] = $this->user_model->get($user_id);
 
 			//header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
-
-			$this->output->enable_profiler(TRUE);
 		}
-
-		// 未完成，将json数据存入mysql
-		public function json2mysql($json_content)
-		{
-			$json_array = json_decode($json_content);
-			$this->user_model->insert();
-		}
-
+		
 		/**
 		* User profile edit.
 		*
@@ -55,14 +46,14 @@
 		{
 			$this->output->enable_profiler(TRUE);
 		}
-
+		
 		/**
 		* User Login
 		*
 		* @since always
 		* @return boolean Result of login.
 		*/
-		private function login()
+		public function login()
 		{
 			$mobile = $this->input->post('mobile');
 			$captcha = $this->input->post('captcha');
@@ -71,12 +62,12 @@
 			// 根据sms_id获取短信记录
 			$sms_result = $this->sms_model->get($sms_id);
 			// 验证mobile和captcha是否与短信中内容相符
-			if (($mobile == $sms_result['mobile']) && strpos($sms_result['content'], $captcha)):
+			if (($mobile == $sms_result['mobile']) && (strpos($sms_result['content'], $captcha) != FALSE)):
 				$output['status'] = 200;
 				// 若相符，则检查该mobile是否已注册
 				$user_id = $this->user_model->is_registered('mobile', $mobile);
-				if(empty($user_id): // 若未注册，创建用户
-					$user_id = $this->user_mode->create();
+				if(empty($user_id)): // 若未注册，创建用户
+					$user_id = $this->user_model->create();
 				endif;
 				
 				// 根据user_id获取并返回用户信息
@@ -87,15 +78,14 @@
 				// 若不符，则返回失败值
 				$output['status'] = 400;
 				$output['content'] = 'Captcha failed.';
-			
+
 			endif;
 
 			$output_json = json_encode($output);
 			echo $output_json;
-			
-			$this->output->enable_profiler(TRUE);
 		}
 		
+		// Not finished
 		/**
 		* User register or create
 		*

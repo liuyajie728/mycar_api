@@ -19,7 +19,6 @@
 		{
 			if ($sms_id === NULL):
 				$this->db->order_by('time_sent desc'); // 按发送时间排序，最近发送的优先
-				$this->db->order_by('status desc'); // 按发送状态排序，发送失败的优先
 				$query = $this->db->get($this->table_name);
 				return $query->result_array();
 

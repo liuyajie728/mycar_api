@@ -61,7 +61,7 @@
 
 	$config['compress_output'] = FALSE;
 
-	$config['time_reference'] = 'local';
+	$config['time_reference'] = 'Asia/Shanghai';
 
 	$config['rewrite_short_tags'] = FALSE;
 

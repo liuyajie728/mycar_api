@@ -42,8 +42,8 @@
 		public function is_registered($column, $value)
 		{
 			$data[$column] = $value;
-			$query = $this-db->get_where($this->table_name, $data);
-			$result = $query->row_array;
+			$query = $this->db->get_where($this->table_name, $data);
+			$result = $query->row_array();
 
 			if (empty($result)): // If no user matches
 				return FALSE;
@@ -58,21 +58,21 @@
 		* @since always
 		* @return int User_id
 		*/
-		private function create()
+		public function create()
 		{
 			$data['mobile'] = $this->input->post('mobile');
 			if ($this->db->insert($this->table_name, $data)):
 				return $this->db->insert_id();
 			endif;
 		}
-		
+
 		/**
 		* Update user profile
 		*
 		* @since always
 		* @return boolean
 		*/
-		private function update()
+		public function update()
 		{
 			$data = array(
 				'nickname' => $this->input->post('nickname'),
@@ -99,7 +99,7 @@
 		* @since always
 		* @return boolean
 		*/
-		private function update_certain($column, $value)
+		public function update_certain($column, $value)
 		{
 			$data[$column] = $value;
 			$this->db->where('user_id', $this->input->post('user_id'));
