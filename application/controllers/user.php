@@ -31,7 +31,7 @@
 			$output['status'] = 200;
 			$output['content'] = $this->user_model->get($user_id);
 
-			//header("Content-type:application/json;charset=utf-8");
+			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
 		}
@@ -58,7 +58,7 @@
 			$mobile = $this->input->post('mobile');
 			$captcha = $this->input->post('captcha');
 			$sms_id = $this->input->post('sms_id');
-			
+
 			// 根据sms_id获取短信记录
 			$sms_result = $this->sms_model->get($sms_id);
 			// 验证mobile和captcha是否与短信中内容相符
@@ -77,7 +77,7 @@
 			else:
 				// 若不符，则返回失败值
 				$output['status'] = 400;
-				$output['content'] = 'Captcha failed.';
+				$output['content'] = '验证码错误';
 
 			endif;
 
@@ -93,7 +93,7 @@
 		* @return boolean Result of creation.
 		*/
 		private function create()
-		{	
+		{
 			$data['class'] = 'user';
 			$data['title'] = '创建用户';
 

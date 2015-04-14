@@ -1,6 +1,12 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 
+	/**
+	* Station Class
+	*
+	* @author Kamas 'Iceberg' Lau <kamaslau@outlook.com>
+	* @copyright SenseStrong <www.sensestrong.com>
+	*/
 	class Station extends CI_Controller
 	{
 		public function __construct()
@@ -12,24 +18,27 @@
 
 			$this->load->model('station_model');
 		}
-
+		
+		/**
+		* Get the information of stations or one certain station.
+		*
+		* @since always
+		* @return array Information of station(s)
+		*/
 		public function index($station_id = NULL)
 		{
-			$output['status'] = 200;
-			$output['content'] = $this->station_model->select($station_id);
+			if ($this->input->is_ajax_request()):
+				$station_id = $this->input->post('station_id');
+				$output['status'] = 200;
+				$output['content'] = $this->station_model->get($station_id);
+			else:
+				$output['status'] = 200;
+				$output['content'] = $this->station_model->get($station_id);
+			endif;
 
-			//header("Content-type:application/json;charset=utf-8");
+			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
-			
-			$this->output->enable_profiler(TRUE);
-		}
-
-		// 未完成，将json数据存入mysql
-		public function json2mysql($json_content)
-		{
-			$json_array = json_decode($json_content);
-			$this->station_model->insert();
 		}
 	}
 

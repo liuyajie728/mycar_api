@@ -14,6 +14,9 @@
 	$route['station/create'] = 'station/create';
 	$route['station/(:any)'] = 'station/index/$1';
 	$route['station'] = 'station/index';
+		
+		$route['station_brand/(:any)'] = 'station_brand/index/$1';
+		$route['station_brand'] = 'station_brand/index';
 
 	/* User 会员 */
 	$route['user/login'] = 'user/login';

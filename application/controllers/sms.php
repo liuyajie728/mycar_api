@@ -19,12 +19,18 @@
 			$this->load->model('sms_model');
 		}
 
+		/**
+		* Get the information of smss or one certain sms.
+		*
+		* @since always
+		* @return array Information of sms(s)
+		*/
 		public function index($sms_id = NULL)
 		{
 			$output['status'] = 200;
 			$output['content'] = $this->sms_model->get($sms_id);
 
-			//header("Content-type:application/json;charset=utf-8");
+			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
 		}
