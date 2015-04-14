@@ -25,16 +25,11 @@
 		* @since always
 		* @return array Information of station(s)
 		*/
-		public function index($station_id = NULL)
+		public function index()
 		{
-			if ($this->input->is_ajax_request()):
-				$station_id = $this->input->post('station_id');
-				$output['status'] = 200;
-				$output['content'] = $this->station_model->get($station_id);
-			else:
-				$output['status'] = 200;
-				$output['content'] = $this->station_model->get($station_id);
-			endif;
+			$station_id = $this->input->post('station_id')? $this->input->post('station_id'): NULL;
+			$output['status'] = 200;
+			$output['content'] = $this->station_model->get($station_id);
 
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
