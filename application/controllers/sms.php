@@ -40,7 +40,7 @@
 		{
 			// generate sms content
 			$mobile = $this->input->post('mobile'); // mobile number
-			$type = $this->input->post('type'); // sms type
+			$type = $this->input->post('type')? $this->input->post('type'): 1; // sms type, if not provided then default to 1.
 			switch ($type) // generate $content according to $type value
 			{
 				case 1: // for register\login\password reset\email binding sms

@@ -162,7 +162,6 @@
 					$this->load->view('user/result', $data);
 					$this->load->view('templates/footer');
 					*/
-
 				endif;
 			endif;
 		}
