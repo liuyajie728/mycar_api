@@ -35,7 +35,14 @@
 			echo $output_json;
 		}
 
-		// 调用luosimao类发送短信
+		/**
+		* Send SMS using luosimao class.
+		*
+		* @since always
+		* @param int $_POST['mobile'] Mobile numbers to receive SMS.
+		* @param int $_POST['type'] SMS type.
+		* @return json SMS sending results.
+		*/
 		public function send()
 		{
 			// generate sms content
@@ -62,6 +69,7 @@
 				$output['status'] = 200;
 				$output['content'] = 'Sms sent successfully.';
 				$output['sms_id'] = $this->sms_model->create($mobile, $content, $type);
+				header("Content-type:application/json;charset=utf-8");
 				$output_json = json_encode($output);
 				echo $output_json;
 			endif;

@@ -36,6 +36,7 @@
 		* @since always
 		* @param int $mobile Mobile number that receives the content.
 		* @param string $content Contents that should be sent via sms.
+		* @param int $type SMS type.
 		* @return int Sms ID
 		*/
 		public function create($mobile, $content, $type)

@@ -16,20 +16,31 @@
 		public function index($order_id = NULL)
 		{
 			$output['status'] = 200;
-			$output['content'] = $this->order_model->select($order_id);
+			$output['content'] = $this->order_model->get($order_id);
 
-			//header("Content-type:application/json;charset=utf-8");
+			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
-			
-			$this->output->enable_profiler(TRUE);
 		}
 
-		// 未完成，将json数据存入mysql
-		public function json2mysql($json_content)
+		/**
+		* Create Order according to user_id provide.
+		*
+		* @since always
+		* @param int $_POST['user_id'] User id.
+		* @return json Order create result.
+		*/
+		public function create()
 		{
-			$json_array = json_decode($json_content);
-			$this->order_model->insert();
+			$user_id = $this->input->post('user_id');
+			// generate order
+			$order_id = $this->order_model->create($user_id);
+			// return created order_id
+			$output['status'] = 200;
+			$output['content']['order_id'] = $order_id;
+			header("Content-type:application/json;charset=utf-8");
+			$output_json = json_encode($output);
+			echo $output_json;
 		}
 	}
 
