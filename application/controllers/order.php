@@ -1,14 +1,20 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 
+	/**
+	* Order Class
+	*
+	* @author Kamas 'Iceberg' Lau <kamaslau@outlook.com>
+	* @copyright SenseStrong <www.sensestrong.com>
+	*/
 	class Order extends CI_Controller
 	{
 		public function __construct()
 		{
 			parent::__construct();
 			
-			$this->load->library('token');
-			$this->token->valid($this->input->get('token'));
+			// $this->load->library('token');
+			// $this->token->valid($this->input->get('token'));
 
 			$this->load->model('order_model');
 		}

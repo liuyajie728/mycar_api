@@ -22,13 +22,11 @@
 		public function index($stuff_id = NULL)
 		{
 			$output['status'] = 200;
-			$output['content'] = $this->stuff_model->select($stuff_id);
+			$output['content'] = $this->stuff_model->get($stuff_id);
 
-			//header("Content-type:application/json;charset=utf-8");
+			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
-
-			$this->output->enable_profiler(TRUE);
 		}
 
 		/**

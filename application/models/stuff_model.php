@@ -17,12 +17,11 @@
 		* @return array
 		* @since always
 		*/
-		public function select($stuff_id = NULL)
+		public function get($stuff_id = NULL)
 		{
 			if ($stuff_id === NULL):
 				$this->db->order_by('date_join');
 				$this->db->order_by('dob');
-				$this->db->order_by('time_create');
 				$query = $this->db->get($this->table_name);
 				return $query->result_array();
 

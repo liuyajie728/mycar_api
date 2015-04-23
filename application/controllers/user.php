@@ -19,7 +19,7 @@
 			$this->load->model('sms_model');
 			$this->load->model('user_model');
 		}
-		
+
 		/**
 		* Get the information of users or one certain user.
 		*
@@ -81,6 +81,7 @@
 
 			endif;
 
+			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
 		}

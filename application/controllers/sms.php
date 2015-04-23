@@ -67,8 +67,7 @@
 			$result_array = json_decode($result);
 			if ($result_array->error === 0): // if sms sent successfully.
 				$output['status'] = 200;
-				$output['content'] = 'Sms sent successfully.';
-				$output['sms_id'] = $this->sms_model->create($mobile, $content, $type);
+				$output['content']['sms_id'] = $this->sms_model->create($mobile, $content, $type);
 				header("Content-type:application/json;charset=utf-8");
 				$output_json = json_encode($output);
 				echo $output_json;

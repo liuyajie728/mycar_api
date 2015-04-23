@@ -1,10 +1,13 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
-
+	
 	date_default_timezone_set('Asia/Shanghai');
-
-	$config['base_url']	= '';
-
+	
+	/**
+	* Native CodeIgniter configs.
+	* @since always
+	*/
+	$config['base_url']	= 'http://www.jiayoucar.com/api/';
 	$config['index_page'] = 'index.php';
 
 	$config['uri_protocol']	= 'AUTO';
@@ -48,7 +51,7 @@
 	$config['sess_time_to_update']	= 300;
 
 	$config['cookie_prefix']	= '';
-	$config['cookie_domain']	= '';
+	$config['cookie_domain']	= '.jiayoucar.com/api/';
 	$config['cookie_path']		= '/';
 	$config['cookie_secure']	= FALSE;
 
