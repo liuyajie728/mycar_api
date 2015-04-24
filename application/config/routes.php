@@ -7,6 +7,13 @@
 	$route['order/create'] = 'order/create';
 	$route['order/(:any)'] = 'order/index/$1';
 	$route['order'] = 'order/index';
+	
+	/* Payment 支付 */
+	$route['payment/edit/(:any)'] = 'payment/edit/$1';
+	$route['payment/delete/(:any)'] = 'payment/delete/$1';
+	$route['payment/create'] = 'payment/create';
+	$route['payment/(:any)'] = 'payment/index/$1';
+	$route['payment'] = 'payment/index';
 
 	/* Station 加油站 */
 	$route['station/edit/(:any)'] = 'station/edit/$1';

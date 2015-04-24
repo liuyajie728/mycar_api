@@ -14,7 +14,7 @@
 			parent::__construct();
 
 			//$this->load->library('token');
-			//$this->token->valid($this->input->get('token'));
+			//$this->token->valid($this->input->post('token'));
 
 			$this->load->model('sms_model');
 			$this->load->model('user_model');
@@ -28,6 +28,8 @@
 		*/
 		public function index($user_id = NULL)
 		{
+			$user_id = isset($user_id)? $user_id: $this->input->post('user_id');
+
 			$output['status'] = 200;
 			$output['content'] = $this->user_model->get($user_id);
 
