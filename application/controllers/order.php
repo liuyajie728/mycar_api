@@ -38,12 +38,19 @@
 		*/
 		public function create()
 		{
-			$user_id = $this->input->post('user_id');
 			// generate order
-			$order_id = $this->order_model->create($user_id);
-			// return created order_id
-			$output['status'] = 200;
-			$output['content']['order_id'] = $order_id;
+			$order_id = $this->order_model->create();
+
+			if (!empty($order_id)):
+				// return created order if succeed.
+				$output['status'] = 200;
+				$order = $this->order_model->get($order_id);
+				$output['content']['order'] = $order;
+			else:
+				$output['status'] = 400;
+				$output['content'] = 'Order not create.';
+			endif;
+
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
