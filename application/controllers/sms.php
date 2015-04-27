@@ -23,7 +23,7 @@
 		* Get the information of smss or one certain sms.
 		*
 		* @since always
-		* @return array Information of sms(s)
+		* @return json Information of sms(s)
 		*/
 		public function index($sms_id = NULL)
 		{

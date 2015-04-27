@@ -10,67 +10,77 @@
 	*/
 	class Luosimao
 	{
+		// API_key
+		protected $api_key = 'api:key-d0359aad0edf38a18e737a58a17b0918';
+
 		/**
-		* 发送单条短信
+		* Send single sms.
 		*
-		* @param string $mobile 收信人手机号
-		* @param string $content 短信内容
-		* @return boolean 发送状态（是否发送成功）
+		* @since always
+		* @param string $mobile Receiver mobile number
+		* @param string $content Sms content
+		* @return json Sending status code and return string.
 		*/
 		public function send($mobile, $content)
 		{
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, 'http://sms-api.luosimao.com/v1/send.json');
+			$url = 'http://sms-api.luosimao.com/v1/send.json';
+			$params = array('mobile' => $mobile, 'message' => $content);
 
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
 			curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
-			curl_setopt($ch, CURLOPT_HTTPAUTH , CURLAUTH_BASIC);
-			curl_setopt($ch, CURLOPT_USERPWD  , 'api:key-d0359aad0edf38a18e737a58a17b0918');
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, $this->api_key);
 
-			curl_setopt($ch, CURLOPT_POST, TRUE);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, array('mobile' => $mobile, 'message' => $content));
+			curl_setopt($ch, CURLOPT_POST, count($params));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 
-			$res = curl_exec( $ch );
-			curl_close( $ch );
-			
+			$res = curl_exec($ch);
+			curl_close($ch);
+
 			return $res;
 		}
 
 		/**
-		* 发送多条短信
+		* Send multipal smss.
 		*
-		* @param array $mobile_list 收信人手机号列表
-		* @param string content 短信内容
-		* @return boolean 发送状态（是否发送成功）
+		* @since always
+		* @param array $mobile_list Receivers mobile number list
+		* @param string $content Sms content
+		* @return json Sending status code and return string
 		*/
 		/*
 		public function send_group($mobile_list, $content)
 		{
-			
+
 		}
 		*/
 		
 		/**
-		* 查询余额
+		* Check balance.
 		*
-		* @return int $balance 剩余短信条数
+		* @since always
+		* @param void
+		* @return json $balance Sms balance
 		*/
 		public function balance()
 		{
-			$ch = curl_init();
+			$url = 'http://sms-api.luosimao.com/v1/status.json';
 
-			curl_setopt($ch, CURLOPT_URL , "http://sms-api.luosimao.com/v1/status.json");
+			$ch = curl_init();			
+			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
 			curl_setopt($ch, CURLOPT_HEADER, FALSE);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
-					
-			curl_setopt($ch, CURLOPT_HTTPAUTH , CURLAUTH_BASIC);
-			curl_setopt($ch, CURLOPT_USERPWD  , 'api:key-d0359aad0edf38a18e737a58a17b0918');
 
-			$res =  curl_exec( $ch );
-			curl_close( $ch ); 
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_USERPWD, $this->api_key);
+
+			$res =  curl_exec($ch);
+			curl_close($ch); 
 			return $res;
 		}
 	}

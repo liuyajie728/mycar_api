@@ -5,6 +5,8 @@
 	$route['order/edit/(:any)'] = 'order/edit/$1';
 	$route['order/delete/(:any)'] = 'order/delete/$1';
 	$route['order/create'] = 'order/create';
+	$route['order/recharge/(:any)'] = 'order/index_recharge/$1';
+	$route['order/recharge'] = 'order/index_recharge';
 	$route['order/(:any)'] = 'order/index/$1';
 	$route['order'] = 'order/index';
 	
@@ -22,6 +24,7 @@
 	$route['station/(:any)'] = 'station/index/$1';
 	$route['station'] = 'station/index';
 		
+		/* Station_brand 加油站品牌 */
 		$route['station_brand/(:any)'] = 'station_brand/index/$1';
 		$route['station_brand'] = 'station_brand/index';
 
@@ -37,13 +40,6 @@
 	$route['sms/balance'] = 'sms/balance';
 	$route['sms/(:any)'] = 'sms/index/$1';
 	$route['sms'] = 'sms/index';
-
-	/* Coupon 优惠券 */
-	$route['coupon/edit/(:any)'] = 'coupon/edit/$1';
-	$route['coupon/delete/(:any)'] = 'coupon/delete/$1';
-	$route['coupon/create'] = 'coupon/create';
-	$route['coupon/(:any)'] = 'coupon/index/$1';
-	$route['coupon'] = 'coupon/index';
 
 	/* Stuff 员工 */
 	$route['stuff/edit/(:any)'] = 'stuff/edit/$1';

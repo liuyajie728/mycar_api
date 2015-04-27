@@ -28,6 +28,16 @@
 			$output_json = json_encode($output);
 			echo $output_json;
 		}
+		
+		public function index_recharge($order_id = NULL)
+		{
+			$output['status'] = 200;
+			$output['content'] = $this->order_model->get_recharge($order_id);
+			
+			header("Content-type:application/json;charset=utf-8");
+			$output_json = json_encode($output);
+			echo $output_json;
+		}
 
 		/**
 		* Create Order according to user_id provide.
@@ -45,7 +55,7 @@
 				// return created order if succeed.
 				$output['status'] = 200;
 				$order = $this->order_model->get($order_id);
-				$output['content']['order'] = $order;
+				$output['content'] = $order;
 			else:
 				$output['status'] = 400;
 				$output['content'] = 'Order not create.';

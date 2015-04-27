@@ -1,10 +1,16 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 	
+	/**
+	* Index Class
+	*
+	* @author Kamas 'Iceberg' Lau <kamaslau@outlook.com>
+	* @copyright SenseStrong <www.sensestrong.com>
+	*/
 	class Index extends CI_Controller
 	{
-		protected $appid = 'wx950698345df5aa55'; // appid，微信公众平台提供，静态
-		protected $appsecret = '8aec4809df6d4f85ecb391235cd33427'; // appsecret，微信公众平台提供，静态，可通过微信公众平台后台重置更换
+		protected $appid = 'wx920a184018cc7654'; // appid，微信公众平台提供，静态
+		protected $appsecret = '1ce56c3e71ff076f6f78ce5e845449e6'; // appsecret，微信公众平台提供，静态，可通过微信公众平台后台重置更换
 		protected $token = 'lyj'; // token，通过微信公众平台后台设置
 
 		public $access_token; // access_token，通过相应API从微信公众平台获取
@@ -22,6 +28,7 @@
 			'menu_get' => 'https://api.weixin.qq.com/cgi_bin/menu/get?access_token=%s', // 获取自定义菜单
 			'menu_delete' => 'https://api.weixin.qq.com/cgi_bin/menu/delete?access_token=%s' // 删除自定义菜单
 		);
+
 		public $output_templates = array( // 发送消息模板
 			'header' => '<?xml version="1.0" encoding="UTF-8"?>
 							<xml>
