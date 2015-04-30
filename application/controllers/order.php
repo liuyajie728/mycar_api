@@ -43,7 +43,7 @@
 		* Create Order according to user_id provide.
 		*
 		* @since always
-		* @param int $_POST['user_id'] User id.
+		* @param void
 		* @return json Order create result.
 		*/
 		public function create()

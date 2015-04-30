@@ -72,13 +72,14 @@
 			if ($type == 'recharge'):
 				$this->table_name = 'order_recharge';
 				$data['amount'] = $this->input->post('amount');
+				$data['total'] = $data['amount'];
 
 			else:
 				// Using default table_name.
 				$data['station_id'] = $this->input->post('station_id');
 				$data['refuel_cost'] = $this->input->post('refuel_cost');
 				$data['shopping_cost'] = $this->input->post('shopping_cost');
-				$data['amount'] = $data['refuel_cost'] + $data['shopping_cost'];
+				$data['total'] = $data['refuel_cost'] + $data['shopping_cost'];
 
 			endif;
 
