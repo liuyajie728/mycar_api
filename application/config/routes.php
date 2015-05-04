@@ -40,6 +40,10 @@
 	$route['sms/balance'] = 'sms/balance';
 	$route['sms/(:any)'] = 'sms/index/$1';
 	$route['sms'] = 'sms/index';
+	
+	/* 文章 */
+	$route['article/(:any)'] = 'article/index/$1';
+	$route['article'] = 'article/index';
 
 	/* Stuff 员工 */
 	$route['stuff/edit/(:any)'] = 'stuff/edit/$1';

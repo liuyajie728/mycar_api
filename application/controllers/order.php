@@ -58,7 +58,7 @@
 				$output['content'] = $order;
 			else:
 				$output['status'] = 400;
-				$output['content'] = 'Order not create.';
+				$output['content'] = 'Order not created.';
 			endif;
 
 			header("Content-type:application/json;charset=utf-8");

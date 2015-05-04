@@ -77,9 +77,10 @@
 			else:
 				// Using default table_name.
 				$data['station_id'] = $this->input->post('station_id');
-				$data['refuel_cost'] = $this->input->post('refuel_cost');
-				$data['shopping_cost'] = $this->input->post('shopping_cost');
-				$data['total'] = $data['refuel_cost'] + $data['shopping_cost'];
+				$data['refuel_amount'] = $this->input->post('refuel_amount');
+				$data['shopping_amount'] = empty($this->input->post('shopping_amount'))? '0.00': $this->input->post('shopping_amount');
+				$data['amount'] = $data['refuel_amount'] + $data['shopping_amount']; // 折前订单额
+				$data['total'] = $data['refuel_amount'] + $data['shopping_amount']; // 折后订单额
 
 			endif;
 
