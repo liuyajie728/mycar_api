@@ -12,20 +12,15 @@
 		/** Get all articles, or get certain article by articles_id
 		*
 		* @since always
-		* @param int $articles_id
+		* @param int $article_id
 		* @return array
 		*/
-		public function get()
+		public function get($article_id)
 		{
-			$article_id = $this->input->post('article_id');
-
 			if ($article_id === NULL):
 				$this->db->order_by('time_create desc');
 				$query = $this->db->get($this->table_name);
 				return $query->result_array();
-				
-			elseif (!is_int($article_id)):
-				return $this->get_by_nicename($article_id);
 				
 			else:
 				$data['article_id'] = $article_id;

@@ -5,11 +5,13 @@
 	$route['order/edit/(:any)'] = 'order/edit/$1';
 	$route['order/delete/(:any)'] = 'order/delete/$1';
 	$route['order/create'] = 'order/create';
+	$route['order/refuel/(:any)'] = 'order/index/$1';
+	$route['order/refuel'] = 'order/index';
 	$route['order/recharge/(:any)'] = 'order/index_recharge/$1';
 	$route['order/recharge'] = 'order/index_recharge';
 	$route['order/(:any)'] = 'order/index/$1';
 	$route['order'] = 'order/index';
-	
+
 	/* Payment 支付 */
 	$route['payment/edit/(:any)'] = 'payment/edit/$1';
 	$route['payment/delete/(:any)'] = 'payment/delete/$1';
@@ -42,7 +44,6 @@
 	$route['sms'] = 'sms/index';
 	
 	/* 文章 */
-	$route['article/(:any)'] = 'article/index/$1';
 	$route['article'] = 'article/index';
 
 	/* Stuff 员工 */

@@ -21,6 +21,9 @@
 
 		public function index($order_id = NULL)
 		{
+			if ($order_id == NULL && !empty($this->input->post('order_id'))):
+				$order_id = $this->input->post('order_id');
+			endif;
 			$output['status'] = 200;
 			$output['content'] = $this->order_model->get($order_id);
 
@@ -31,6 +34,9 @@
 		
 		public function index_recharge($order_id = NULL)
 		{
+			if ($order_id == NULL && !empty($this->input->post('order_id'))):
+				$order_id = $this->input->post('order_id');
+			endif;
 			$output['status'] = 200;
 			$output['content'] = $this->order_model->get_recharge($order_id);
 			
@@ -54,7 +60,12 @@
 			if (!empty($order_id)):
 				// return created order if succeed.
 				$output['status'] = 200;
-				$order = $this->order_model->get($order_id);
+				$type = $this->input->post('type');
+				if ($type == 'recharge'):
+					$order = $this->order_model->get_recharge($order_id);
+				else:
+					$order = $this->order_model->get($order_id);
+				endif;
 				$output['content'] = $order;
 			else:
 				$output['status'] = 400;

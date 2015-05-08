@@ -27,9 +27,16 @@
 		*/
 		public function index()
 		{
-			$output['status'] = 200;
-			$output['content'] = $this->article_model->get();
+			//$article_id = $this->input->post('article_id')? $this->input->post('article_id'): NULL;
+			$article_id = 1;
 
+			if (is_int($article_id) or $article_id === NULL):
+				$output['content'] = $this->article_model->get($article_id);
+			else:
+				$output['content'] = $this->article_model->get_by_nicename($article_id);
+			endif;
+
+			$output['status'] = 200;
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
