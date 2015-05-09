@@ -13,8 +13,8 @@
 		{
 			parent::__construct();
 
-			//$this->load->library('token');
-			//$this->token->valid($this->input->post('token'));
+			$this->load->library('token');
+			$this->token->valid($this->input->post('token'));
 
 			$this->load->model('station_model');
 		}
@@ -25,9 +25,11 @@
 		* @since always
 		* @return array Information of station(s)
 		*/
-		public function index()
+		public function index($station_id = NULL)
 		{
-			$station_id = $this->input->post('station_id')? $this->input->post('station_id'): NULL;
+			if ($this->input->post('station_id')):
+				$station_id = $this->input->post('station_id');
+			endif;
 			$output['status'] = 200;
 			$output['content'] = $this->station_model->get($station_id);
 

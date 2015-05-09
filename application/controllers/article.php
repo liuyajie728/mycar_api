@@ -13,8 +13,8 @@
 		{
 			parent::__construct();
 			
-			// $this->load->library('token');
-			// $this->token->valid($this->input->post('token'));
+			$this->load->library('token');
+			$this->token->valid($this->input->post('token'));
 
 			$this->load->model('article_model');
 		}
