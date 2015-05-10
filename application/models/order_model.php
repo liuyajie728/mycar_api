@@ -104,4 +104,22 @@
 				return $this->db->insert_id();
 			endif;
 		}
+		
+		public function update_status()
+		{
+			$order_id = $this->input->post('order_id');
+			$data['status'] = $this->input->post('status');
+			$data['type'] = $this->input->post('type');
+			
+			if ($type == 'recharge'):
+				$this->table_name = 'order_recharge';
+			endif;
+			
+			if ($status == '3'):
+				$data['payment_id'] = $this->input->post('payment_id');
+			endif;
+			
+			$this->db->where('order_id', $order_id);
+			return $this->db->update($this->table_name, $data);
+		}
 	}

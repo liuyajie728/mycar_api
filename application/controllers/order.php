@@ -76,6 +76,11 @@
 			$output_json = json_encode($output);
 			echo $output_json;
 		}
+		
+		public function update_status()
+		{
+			$result = $this->order_model->update_status();
+		}
 	}
 
 /* End of file order.php */

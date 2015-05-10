@@ -4,9 +4,10 @@
 	/* Order 订单 */
 	$route['order/edit/(:any)'] = 'order/edit/$1';
 	$route['order/delete/(:any)'] = 'order/delete/$1';
+	$route['order/update_status'] = 'order/update_status';
 	$route['order/create'] = 'order/create';
-	$route['order/refuel/(:any)'] = 'order/index/$1';
-	$route['order/refuel'] = 'order/index';
+	$route['order/consume/(:any)'] = 'order/index/$1';
+	$route['order/consume'] = 'order/index';
 	$route['order/recharge/(:any)'] = 'order/index_recharge/$1';
 	$route['order/recharge'] = 'order/index_recharge';
 	$route['order/(:any)'] = 'order/index/$1';
