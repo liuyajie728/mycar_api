@@ -31,7 +31,7 @@
 			$output_json = json_encode($output);
 			echo $output_json;
 		}
-		
+
 		public function index_recharge($order_id = NULL)
 		{
 			if ($order_id == NULL && !empty($this->input->post('order_id'))):

@@ -26,12 +26,10 @@
 		* @since always
 		* @return array Information of user(s)
 		*/
-		public function index($user_id = NULL)
+		public function index()
 		{
-			$user_id = isset($user_id)? $user_id: $this->input->post('user_id');
-
 			$output['status'] = 200;
-			$output['content'] = $this->user_model->get($user_id);
+			$output['content'] = $this->user_model->get();
 
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
@@ -44,7 +42,7 @@
 		* @since always
 		* @return boolean Result of profile edit.
 		*/
-		public function edit($user_id)
+		public function edit()
 		{
 			$this->output->enable_profiler(TRUE);
 		}

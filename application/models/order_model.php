@@ -17,11 +17,12 @@
 		*/
 		public function get($order_id = NULL)
 		{
+			$data['user_id'] = $this->input->post('user_id');
 			if ($order_id === NULL):
 				$this->db->order_by('time_create desc');
 				$this->db->order_by('status desc');
 				$this->db->order_by('time_payed desc');
-				$query = $this->db->get($this->table_name);
+				$query = $this->db->get_where($this->table_name, $data);
 				return $query->result_array();
 
 			else:
@@ -42,11 +43,12 @@
 		{
 			$this->table_name = 'order_recharge';
 
+			$data['user_id'] = $this->input->post('user_id');
 			if ($order_id === NULL):
 				$this->db->order_by('time_create desc');
 				$this->db->order_by('status desc');
 				$this->db->order_by('time_payed desc');
-				$query = $this->db->get($this->table_name);
+				$query = $this->db->get_where($this->table_name, $data);
 				return $query->result_array();
 
 			else:
@@ -104,22 +106,37 @@
 				return $this->db->insert_id();
 			endif;
 		}
-		
+
 		public function update_status()
 		{
+			$type = $this->input->post('type');
 			$order_id = $this->input->post('order_id');
-			$data['status'] = $this->input->post('status');
-			$data['type'] = $this->input->post('type');
-			
+			$status = $this->input->post('status');
+
 			if ($type == 'recharge'):
 				$this->table_name = 'order_recharge';
 			endif;
-			
+
 			if ($status == '3'):
+				if ($type == 'consume'):
+					$order_code_result = $this->get_station_code($order_id);
+					$data['order_code'] = $order_code_result['order_code'];
+				endif;
+				$data['status'] = $status;
 				$data['payment_id'] = $this->input->post('payment_id');
+				$data['time_payed'] = date('Y-m-d H:i:s');
 			endif;
-			
+
 			$this->db->where('order_id', $order_id);
 			return $this->db->update($this->table_name, $data);
+		}
+
+		// 如果是consume类型订单，支付成功后根据station_id获取对应加油站即时的code（加油口令）并写入。
+		public function get_station_code($station_id)
+		{
+			$data['station_id'] = $station_id;
+			$this->db->select('order_code');
+			$query = $this->db->get_where('station', $data);
+			return $query->row_array();
 		}
 	}
