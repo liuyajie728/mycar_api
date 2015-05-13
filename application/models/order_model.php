@@ -15,9 +15,11 @@
 		* @param int $order_id
 		* @return array
 		*/
-		public function get($order_id = NULL)
+		public function get($order_id = NULL, $require_source = 'outer')
 		{
-			$data['user_id'] = $this->input->post('user_id');
+			if ($require_source != 'inner'):
+				$data['user_id'] = $this->input->post('user_id');
+			endif;
 			if ($order_id === NULL):
 				$this->db->order_by('time_create desc');
 				$this->db->order_by('status desc');
@@ -119,7 +121,13 @@
 
 			if ($status == '3'):
 				if ($type == 'consume'):
-					$order_code_result = $this->get_station_code($order_id);
+					// 根据order_id获取相关station_id
+					$order_result = $this->get($order_id, 'inner'); //Avoid user_id requirement.
+					var_dump($order_result);
+					$station_id = $order_result['station_id'];
+					
+					// 根据station_id获取相关加油站order_code
+					$order_code_result = $this->get_station_code($station_id);
 					$data['order_code'] = $order_code_result['order_code'];
 				endif;
 				$data['status'] = $status;
