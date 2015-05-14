@@ -46,11 +46,11 @@
 		}
 
 		/**
-		* Create Order according to user_id provide.
+		* Create order according to user_id provided.
 		*
 		* @since always
 		* @param void
-		* @return json Order create result.
+		* @return json Order createing result.
 		*/
 		public function create()
 		{
@@ -77,6 +77,13 @@
 			echo $output_json;
 		}
 
+		/**
+		* Update order status.
+		*
+		* @since always
+		* @param void
+		* @return void
+		*/
 		public function update_status()
 		{
 			$result = $this->order_model->update_status();

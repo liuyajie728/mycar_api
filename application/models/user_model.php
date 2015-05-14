@@ -24,7 +24,7 @@
 				return $query->result_array();
 
 			else:
-				$data['user_id'] = isset($user_id)? $user_id: $this->input->post('user_id');
+				$data['user_id'] = $user_id;
 				$query = $this->db->get_where($this->table_name, $data);
 				return $query->row_array();
 

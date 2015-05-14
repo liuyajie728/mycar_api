@@ -62,7 +62,7 @@
 		}
 
 		/**
-		* Create orders according to user_id and other params provided
+		* Create order according to user_id and other params provided
 		*
 		* @since always
 		* @param int $user_id

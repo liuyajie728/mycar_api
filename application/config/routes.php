@@ -13,23 +13,20 @@
 	$route['order/(:any)'] = 'order/index/$1';
 	$route['order'] = 'order/index';
 
-	/* Payment 支付 */
-	$route['payment/edit/(:any)'] = 'payment/edit/$1';
-	$route['payment/delete/(:any)'] = 'payment/delete/$1';
-	$route['payment/create'] = 'payment/create';
-	$route['payment/(:any)'] = 'payment/index/$1';
-	$route['payment'] = 'payment/index';
-
 	/* Station 加油站 */
 	$route['station/edit/(:any)'] = 'station/edit/$1';
 	$route['station/delete/(:any)'] = 'station/delete/$1';
 	$route['station/create'] = 'station/create';
 	$route['station/(:any)'] = 'station/index/$1';
 	$route['station'] = 'station/index';
-		
+
 		/* Station_brand 加油站品牌 */
 		$route['station_brand/(:any)'] = 'station_brand/index/$1';
 		$route['station_brand'] = 'station_brand/index';
+
+	/* Comment */
+	$route['comment/create'] = 'comment/create'; // 评价订单
+	$route['comment/append'] = 'comment/append'; // 追加评价订单
 
 	/* User 会员 */
 	$route['user/login'] = 'user/login';
@@ -43,7 +40,7 @@
 	$route['sms/balance'] = 'sms/balance';
 	$route['sms/(:any)'] = 'sms/index/$1';
 	$route['sms'] = 'sms/index';
-	
+
 	/* 文章 */
 	$route['article'] = 'article/index';
 
