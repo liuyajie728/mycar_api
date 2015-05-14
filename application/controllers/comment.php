@@ -48,13 +48,12 @@
 		*/
 		public function create()
 		{
-			// generate order
-			$comment_id = $this->comment_model->create();
+			$result = $this->comment_model->create();
 
-			if (!empty($comment_id)):
+			if ($result == TRUE):
 				// return created comment id if succeed.
 				$output['status'] = 200;
-				$output['content']['comment_id'] = $comment_id;
+				$output['content'] = '评论成功！';
 			else:
 				$output['status'] = 400;
 				$output['content'] = '评论失败！';
@@ -74,7 +73,6 @@
 		*/
 		public function append()
 		{
-			// generate order
 			$result = $this->comment_model->append();
 
 			if ($result == TRUE):
@@ -88,18 +86,6 @@
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;
-		}
-
-		/**
-		* Update order status.
-		*
-		* @since always
-		* @param void
-		* @return void
-		*/
-		public function update_status()
-		{
-			$result = $this->order_model->update_status();
 		}
 	}
 

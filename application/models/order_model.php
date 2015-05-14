@@ -123,7 +123,6 @@
 				if ($type == 'consume'):
 					// 根据order_id获取相关station_id
 					$order_result = $this->get($order_id, 'inner'); //Avoid user_id requirement.
-					var_dump($order_result);
 					$station_id = $order_result['station_id'];
 					
 					// 根据station_id获取相关加油站order_code
