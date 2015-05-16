@@ -3,9 +3,9 @@
 
 	$autoload['packages'] = array();
 
-	$autoload['libraries'] = array('database','form_validation','image_lib','session');
+	$autoload['libraries'] = array('database', 'session');
 
-	$autoload['helper'] = array('cookie','date','form','security','url');
+	$autoload['helper'] = array('date', 'string', 'security', 'url');
 
 	$autoload['config'] = array();
 

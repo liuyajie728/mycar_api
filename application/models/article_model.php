@@ -9,13 +9,13 @@
 			$this->load->database();
 		}
 
-		/** Get all articles, or get certain article by articles_id
+		/** Get all articles, or get certain article by articles_id, or get certain article by nicename
 		*
 		* @since always
-		* @param int $article_id
+		* @param int/string $article_id
 		* @return array
 		*/
-		public function get($article_id)
+		public function get($article_id = NULL)
 		{
 			if ($article_id === NULL):
 				$this->db->order_by('time_create desc');
@@ -23,23 +23,11 @@
 				return $query->result_array();
 				
 			else:
-				$data['article_id'] = $article_id;
-				$query = $this->db->get_where($this->table_name, $data);
+				$this->db->where('article_id', $article_id);
+				$this->db->or_where('nicename', $article_id); 
+				$query = $this->db->get($this->table_name);
 				return $query->row_array();
 
 			endif;
-		}
-
-		/** Get all articles, or get certain article by nicename
-		*
-		* @since always
-		* @param string $nicename
-		* @return array
-		*/
-		public function get_by_nicename($nicename)
-		{
-			$data['nicename'] = $nicename;
-			$query = $this->db->get_where($this->table_name, $data);
-			return $query->row_array();
 		}
 	}

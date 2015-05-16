@@ -14,7 +14,8 @@
 			parent::__construct();
 			
 			$this->load->library('token');
-			$this->token->valid($this->input->post('token'));
+			$token = $this->input->post('token');
+			$this->token->valid($token);
 
 			$this->load->model('sms_model');
 		}

@@ -75,17 +75,17 @@
 			// 获取用户设备的IP地址
 			function get_client_ip()
 			{ 
-			    if(getenv('HTTP_CLIENT_IP')):
+			    if (getenv('HTTP_CLIENT_IP')):
 			        $client_ip = getenv('HTTP_CLIENT_IP'); 
-				elseif(getenv('HTTP_X_FORWARDED_FOR')):
+				elseif (getenv('HTTP_X_FORWARDED_FOR')):
 			        $client_ip = getenv('HTTP_X_FORWARDED_FOR'); 
-				elseif(getenv('REMOTE_ADDR')):
+				elseif (getenv('REMOTE_ADDR')):
 			        $client_ip = getenv('REMOTE_ADDR'); 
 			    else:
 			        $client_ip = $_SERVER['REMOTE_ADDR'];
 			    endif;
-			    return $client_ip; 
-			}   
+			    return $client_ip;
+			}
 			$data['user_ip'] = get_client_ip();
 
 			$type = $this->input->post('type');

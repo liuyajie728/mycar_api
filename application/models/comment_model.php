@@ -20,7 +20,7 @@
 			if ($comment_id === NULL):
 				$this->db->order_by('time_create desc');
 				$this->db->order_by('time_append desc');
-				$query = $this->db->get_where($this->table_name, $data);
+				$query = $this->db->get($this->table_name);
 				return $query->result_array();
 
 			else:
@@ -30,6 +30,20 @@
 
 			endif;
 		}
+		
+		public function get_by_order_id($order_id = NULL)
+		{
+			$data['order_id'] = $order_id;
+			$query = $this->db->get_where($this->table_name, $data);
+			return $query->row_array();
+		}
+		
+		public function get_by_station_id($station_id = NULL)
+		{
+			$data['station_id'] = $station_id;
+			$query = $this->db->get_where($this->table_name, $data);
+			return $query->row_array();
+		}
 
 		/**
 		* Create comment according to order_id and other params provided
@@ -38,20 +52,21 @@
 		* @param int $order_id
 		* @return int comment_id of created comment.
 		*/
-		public function create()
+		public function create($order_id, $rate_oil, $rate_service, $content)
 		{
-			$order_id = $this->input->post('order_id');
 			// Get user_id and station_id from relevent order according to order_id.
 			$order_info = $this->get_order_info($order_id);
-			$data['user_id'] = $order_info['user_id'];
-			$data['station_id'] = $order_info['station_id'];
+			$data = array(
+				'order_id' => $order_id,
+				'user_id' => $order_info['user_id'],
+				'station_id' => $order_info['station_id'],
+				'rate_oil' => $rate_oil,
+				'rate_service' => $rate_service,
+				'content' => $content
+			);
+			$create_result = $this->db->insert($this->table_name, $data);
 
-			$data['order_id'] = $order_id;
-			$data['rate_oil'] = !empty($this->input->post('rate_oil'))? $this->input->post('rate_oil'): NULL;
-			$data['rate_service'] = !empty($this->input->post('rate_service'))? $this->input->post('rate_service'): NULL;
-			$data['content'] = !empty($this->input->post('content'))? $this->input->post('content'): NULL;
-
-			if ($this->db->insert($this->table_name, $data)):
+			if ($create_result == TRUE):
 				return $this->update_order_status($order_id, '4');
 			endif;
 		}
@@ -63,16 +78,17 @@
 		* @param int $order_id
 		* @return int comment_id of created comment.
 		*/
-		public function append()
+		public function append($comment_id, $append)
 		{
-			$comment_id = $this->input->post('comment_id');
-			$data['append'] = $this->input->post('append');
-			$data['time_append'] = date('Y-m-d H:i:s');
-
+			$data = array(
+				'append' => $append,
+				'time_append' => date('Y-m-d H:i:s')
+			);
 			$this->db->where('comment_id', $comment_id);
 			$append_result = $this->db->update($this->table_name, $data);
-			
+
 			if ($append_result == TRUE):
+				// Get order_id using comment_id, then renew order status
 				$comment = $this->get($comment_id);
 				$order_id = $comment['order_id'];
 				return $this->update_order_status($order_id, '5');
@@ -86,7 +102,7 @@
 			$query = $this->db->get_where('order_refuel', $data);
 			return $query->row_array();
 		}
-		
+
 		public function update_order_status($order_id, $new_status)
 		{
 			$data['status'] = $new_status;

@@ -12,9 +12,10 @@
 		public function __construct()
 		{
 			parent::__construct();
-			
+
 			$this->load->library('token');
-			$this->token->valid($this->input->post('token'));
+			//$token = $this->input->post('token');
+			//$this->token->valid($token);
 
 			$this->load->model('comment_model');
 		}
@@ -26,13 +27,18 @@
 		* @param void
 		* @return json Comments or single comment.
 		*/
-		public function index($comment_id = NULL)
+		public function index()
 		{
-			if ($order_id == NULL && !empty($this->input->post('comment_id'))):
-				$order_id = $this->input->post('comment_id');
+			$comment_id = $this->input->post('comment_id')? $this->input->post('comment_id'): NULL;
+
+			$comment = $this->comment_model->get($comment_id);
+			if (!empty($comment)):
+				$output['status'] = 200;
+				$output['content'] = $comment;
+			else:
+				$output['status'] = 400;
+				$output['content'] = '未找到相应评论！';
 			endif;
-			$output['status'] = 200;
-			$output['content'] = $this->comment_model->get($comment_id);
 
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
@@ -48,10 +54,14 @@
 		*/
 		public function create()
 		{
-			$result = $this->comment_model->create();
+			$rate_oil = !empty($this->input->post('rate_oil'))? $this->input->post('rate_oil'): NULL;
+			$rate_service = !empty($this->input->post('rate_service'))? $this->input->post('rate_service'): NULL;
+			$content = !empty($this->input->post('content'))? $this->input->post('content'): NULL;
+			
+			$order_id = $this->input->post('order_id');
+			$result = $this->comment_model->create($order_id, $rate_oil, $rate_service, $content);
 
 			if ($result == TRUE):
-				// return created comment id if succeed.
 				$output['status'] = 200;
 				$output['content'] = '评论成功！';
 			else:
@@ -73,7 +83,11 @@
 		*/
 		public function append()
 		{
-			$result = $this->comment_model->append();
+			// Check if params are valid and not harmful.
+			$append = $this->input->post('append');
+			
+			$comment_id = $this->input->post('comment_id');
+			$result = $this->comment_model->append($comment_id, $append);
 
 			if ($result == TRUE):
 				$output['status'] = 200;

@@ -14,7 +14,8 @@
 			parent::__construct();
 			
 			$this->load->library('token');
-			$this->token->valid($this->input->post('token'));
+			//$token = $this->input->post('token');
+			//$this->token->valid($token);
 
 			$this->load->model('article_model');
 		}
@@ -23,20 +24,22 @@
 		* Get the information of articles or one certain article.
 		*
 		* @since always
+		* @param int/string $article_id Article id or nicename posted in.
 		* @return json Information of article(s)
 		*/
 		public function index()
 		{
-			//$article_id = $this->input->post('article_id')? $this->input->post('article_id'): NULL;
-			$article_id = 1;
+			$article_id = $this->input->post('article_id')? $this->input->post('article_id'): NULL;
 
-			if (is_int($article_id) or $article_id === NULL):
-				$output['content'] = $this->article_model->get($article_id);
+			$article = $this->article_model->get($article_id);
+			if (!empty($article)):
+				$output['status'] = 200;
+				$output['content'] = $article;
 			else:
-				$output['content'] = $this->article_model->get_by_nicename($article_id);
+				$output['status'] = 400;
+				$output['content'] = '未找到相应文章！';
 			endif;
 
-			$output['status'] = 200;
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
 			echo $output_json;

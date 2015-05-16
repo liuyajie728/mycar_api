@@ -26,7 +26,8 @@
 
 	/* Comment */
 	$route['comment/create'] = 'comment/create'; // 评价订单
-	$route['comment/append'] = 'comment/append'; // 追加评价订单
+	$route['comment/append'] = 'comment/append'; // 追加评价
+	$route['comment'] = 'comment/index';
 
 	/* User 会员 */
 	$route['user/login'] = 'user/login';

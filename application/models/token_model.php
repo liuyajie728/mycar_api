@@ -17,7 +17,10 @@
 		*/
 		public function select($token = NULL)
 		{
-			$data['content'] = $token;
+			$data = array();
+			if ($token != NULL):
+				$data['content'] = $token;
+			endif;
 			$query = $this->db->get_where($this->table_name, $data);
 			return $query->row_array();
 		}
@@ -35,11 +38,11 @@
 			$query = $this->db->get_where($this->table_name, $data);
 			$result = $query->row_array();
 			
-			if($query->num_rows() == 0): // If token does not exist.
+			if ($query->num_rows() == 0): // If token does not exist.
 				return 404;
 			
-			elseif(isset($result['time_due'])): // If token has a due time.
-				if($result['time_due'] < date('Y-m-d H:i:s')): // If token is no longer valid.
+			elseif (isset($result['time_due'])): // If token has a due time.
+				if ($result['time_due'] < date('Y-m-d H:i:s')): // If token is no longer valid.
 					return 403;
 				endif;
 
@@ -57,7 +60,7 @@
 		*/
 		public function create()
 		{
-			$token = $this->generate();
+			$token = random_string('alnum', 25);;
 			$data['content'] = $token;
 
 			if ($this->db->insert($this->table_name, $data)):
@@ -66,32 +69,5 @@
 			else:
 				return FALSE;
 			endif;
-		}
-		
-		/**
-		* Generate a token
-		*
-		* @return string Generated Token.
-		* @since always
-		*/
-		public function generate($length = 25)
-		{
-			// generate a 25 character string which combines intergers & alphabets in both cases. 
-			function radom_string($length)
-			{
-				$string = null;
-				$elements = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
-				$max = strlen($elements)-1;
-				
-				for ($i=0; $i<$length; $i++)
-				{
-					$string .= $elements[rand(0, $max)]; //rand($min,$max)生成介于min和max两个数之间的一个随机整数
-				}
-				
-				return $string;
-			}
-			
-			$token = radom_string($length);
-			return $token;
 		}
 	}
