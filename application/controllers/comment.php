@@ -14,8 +14,8 @@
 			parent::__construct();
 
 			$this->load->library('token');
-			//$token = $this->input->post('token');
-			//$this->token->valid($token);
+			$token = $this->input->post('token');
+			$this->token->valid($token);
 
 			$this->load->model('comment_model');
 		}
@@ -30,8 +30,8 @@
 		public function index()
 		{
 			$comment_id = $this->input->post('comment_id')? $this->input->post('comment_id'): NULL;
-
 			$comment = $this->comment_model->get($comment_id);
+
 			if (!empty($comment)):
 				$output['status'] = 200;
 				$output['content'] = $comment;
@@ -85,7 +85,7 @@
 		{
 			// Check if params are valid and not harmful.
 			$append = $this->input->post('append');
-			
+
 			$comment_id = $this->input->post('comment_id');
 			$result = $this->comment_model->append($comment_id, $append);
 

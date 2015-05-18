@@ -27,12 +27,20 @@
 		* @since always
 		* @return array Information of user(s)
 		*/
-		public function index($user_id = NULL)
+		public function index()
 		{
-			$user_id = isset($user_id)? $user_id: $this->input->post('user_id');
+			$user_id = $this->input->post('user_id')? $this->input->post('user_id'): NULL;
+			$user = $this->user_model->get($user_id);
 
-			$output['status'] = 200;
-			$output['content'] = $this->user_model->get($user_id);
+			if (!empty($user)):
+				$output['status'] = 200;
+				$output['content'] = $user;
+
+			else:
+				$output['status'] = 400;
+				$output['content'] = '用户不存在！';
+
+			endif;
 
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);
@@ -40,7 +48,7 @@
 		}
 		
 		/**
-		* User profile edit.
+		* NOT FINISHED. User profile edit.
 		*
 		* @since always
 		* @return boolean Result of profile edit.
@@ -70,10 +78,11 @@
 				$user_id = $this->user_model->is_registered('mobile', $mobile);
 				// 若未注册，创建用户
 				if(empty($user_id)):
-					$user_id = $this->user_model->create();
+					$user_id = $this->user_model->create($mobile);
 				endif;
 				// 根据user_id获取并返回用户信息
 				$user_info = $this->user_model->get($user_id);
+				@$update_last_activity = $this->user_model->update_certain($user_id, 'time_last_activity', date('Y-m-d H:i:s')); // 更新用户最新活动时间，不必检测是否更新成功。
 				$output['status'] = 200;
 				$output['content'] = $user_info;
 

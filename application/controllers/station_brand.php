@@ -26,15 +26,17 @@
 		* @since always
 		* @return array Information of station brand(s)
 		*/
-		public function index($brand_id = NULL)
+		public function index()
 		{
-			if ($this->input->is_ajax_request()):
-				$station_id = $this->input->post('brand_id');
+			$brand_id = $this->input->post('brand_id')? $this->input->post('brand_id'): NULL;
+			$brand = $this->station_brand_model->get($brand_id);
+
+			if (!empty($brand)):
 				$output['status'] = 200;
-				$output['content'] = $this->station_brand_model->get($brand_id);
+				$output['content'] = $brand;
 			else:
-				$output['status'] = 200;
-				$output['content'] = $this->station_brand_model->get($brand_id);
+				$output['status'] = 400;
+				$output['content'] = '加油站品牌获取失败！';
 			endif;
 
 			header("Content-type:application/json;charset=utf-8");

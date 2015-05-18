@@ -17,9 +17,11 @@
 		*/
 		public function get($order_id = NULL, $require_source = 'outer')
 		{
+			// If not used by other functions, then require user_id
 			if ($require_source != 'inner'):
 				$data['user_id'] = $this->input->post('user_id');
 			endif;
+
 			if ($order_id === NULL):
 				$this->db->order_by('time_create desc');
 				$this->db->order_by('status desc');
@@ -41,11 +43,12 @@
 		* @param int $order_id
 		* @return array
 		*/
-		public function get_recharge($order_id = NULL)
+		public function get_recharge($order_id = NULL, $user_id = NULL)
 		{
 			$this->table_name = 'order_recharge';
+			
+			($user_id != NULL)? $data['user_id'] = $user_id: $data = array();
 
-			$data['user_id'] = $this->input->post('user_id');
 			if ($order_id === NULL):
 				$this->db->order_by('time_create desc');
 				$this->db->order_by('status desc');
@@ -66,29 +69,14 @@
 		*
 		* @since always
 		* @param int $user_id
+		* @param string $type
 		* @return int Order_id of created order.
 		*/
-		public function create()
+		public function create($user_id, $user_ip, $type)
 		{
-			$data['user_id'] = $this->input->post('user_id');
+			$data['user_id'] = $user_id;
+			$data['user_ip'] = $user_ip;
 
-			// 获取用户设备的IP地址
-			function get_client_ip()
-			{ 
-			    if (getenv('HTTP_CLIENT_IP')):
-			        $client_ip = getenv('HTTP_CLIENT_IP'); 
-				elseif (getenv('HTTP_X_FORWARDED_FOR')):
-			        $client_ip = getenv('HTTP_X_FORWARDED_FOR'); 
-				elseif (getenv('REMOTE_ADDR')):
-			        $client_ip = getenv('REMOTE_ADDR'); 
-			    else:
-			        $client_ip = $_SERVER['REMOTE_ADDR'];
-			    endif;
-			    return $client_ip;
-			}
-			$data['user_ip'] = get_client_ip();
-
-			$type = $this->input->post('type');
 			if ($type == 'recharge'):
 				$this->table_name = 'order_recharge';
 				$data['amount'] = $this->input->post('amount');
@@ -109,12 +97,8 @@
 			endif;
 		}
 
-		public function update_status()
+		public function update_status($type, $order_id, $status, $payment_id = NULL)
 		{
-			$type = $this->input->post('type');
-			$order_id = $this->input->post('order_id');
-			$status = $this->input->post('status');
-
 			if ($type == 'recharge'):
 				$this->table_name = 'order_recharge';
 			endif;
@@ -130,7 +114,6 @@
 					$data['order_code'] = $order_code_result['order_code'];
 				endif;
 				$data['status'] = $status;
-				$data['payment_id'] = $this->input->post('payment_id');
 				$data['time_payed'] = date('Y-m-d H:i:s');
 			endif;
 

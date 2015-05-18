@@ -31,7 +31,7 @@
 			endif;
 		}
 		
-		public function get_by_order_id($order_id = NULL)
+		public function get_by_order($order_id = NULL)
 		{
 			$data['order_id'] = $order_id;
 			$query = $this->db->get_where($this->table_name, $data);

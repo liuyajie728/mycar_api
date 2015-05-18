@@ -20,10 +20,18 @@
 			$this->load->model('stuff_model');
 		}
 
-		public function index($stuff_id = NULL)
+		public function index()
 		{
-			$output['status'] = 200;
-			$output['content'] = $this->stuff_model->get($stuff_id);
+			$stuff_id = $this->input->post('stuff_id')? $this->input->post('stuff_id'): NULL;
+			$stuff = $this->stuff_model->get($stuff_id);
+
+			if (!empty($stuff)):
+				$output['status'] = 200;
+				$output['content'] = $stuff;
+			else:
+				$output['status'] = 400;
+				$output['content'] = '加油站品牌获取失败！';
+			endif;
 
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);

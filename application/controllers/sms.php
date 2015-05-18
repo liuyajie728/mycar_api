@@ -24,12 +24,23 @@
 		* Get the information of smss or one certain sms.
 		*
 		* @since always
+		* @param int $_POST['sms_id'] Optional, SMS ID.
 		* @return json Information of sms(s)
 		*/
-		public function index($sms_id = NULL)
+		public function index()
 		{
-			$output['status'] = 200;
-			$output['content'] = $this->sms_model->get($sms_id);
+			$sms_id = $this->input->post('sms_id')? $this->input->post('sms_id'): NULL;
+			$sms = $this->sms_model->get($sms_id);
+			
+			if (!empty($sms)):
+				$output['status'] = 200;
+				$output['content'] = $sms;
+				
+			else:
+				$output['status'] = 400;
+				$output['content'] = '短信不存在！';
+
+			endif;
 
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);

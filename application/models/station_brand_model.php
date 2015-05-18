@@ -9,7 +9,7 @@
 			$this->load->database();
 		}
 
-		//获取所有加油站，或根据id获取特定加油站
+		//获取所有加油站品牌，或根据id获取特定加油站品牌
 		public function get($brand_id = NULL)
 		{
 			if ($brand_id === NULL):

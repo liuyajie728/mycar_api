@@ -26,13 +26,18 @@
 		* @since always
 		* @return array Information of station(s)
 		*/
-		public function index($station_id = NULL)
+		public function index()
 		{
-			if ($this->input->post('station_id')):
-				$station_id = $this->input->post('station_id');
+			$station_id = $this->input->post('station_id')? $this->input->post('station_id'): NULL;
+			$station = $this->station_model->get($station_id);
+
+			if (!empty($station)):
+				$output['status'] = 200;
+				$output['content'] = $station;
+			else:
+				$output['status'] = 400;
+				$output['content'] = '加油站品牌获取失败！';
 			endif;
-			$output['status'] = 200;
-			$output['content'] = $this->station_model->get($station_id);
 
 			header("Content-type:application/json;charset=utf-8");
 			$output_json = json_encode($output);

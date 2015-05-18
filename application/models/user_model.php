@@ -58,16 +58,16 @@
 		* @since always
 		* @return int User_id
 		*/
-		public function create()
+		public function create($mobile)
 		{
-			$data['mobile'] = $this->input->post('mobile');
+			$data['mobile'] = $mobile;
 			if ($this->db->insert($this->table_name, $data)):
 				return $this->db->insert_id();
 			endif;
 		}
 
 		/**
-		* Update user profile
+		* NOT FINISHED. Update user profile
 		*
 		* @since always
 		* @return boolean
@@ -85,8 +85,8 @@
 				'logo_url' => $this->input->post('logo_url')
 			);
 			$this->db->where('user_id', $this->input->post('user_id'));
-			$query = $this->db->update($this->table_name, $data);
-			if (empty($query->row_array)): // If no user matches
+			$result = $this->db->update($this->table_name, $data);
+			if ($result === FALSE): // If no user matches
 				return FALSE;
 			else: // If one user matches
 				return TRUE;
@@ -99,12 +99,12 @@
 		* @since always
 		* @return boolean
 		*/
-		public function update_certain($column, $value)
+		public function update_certain($user_id, $column, $value)
 		{
 			$data[$column] = $value;
-			$this->db->where('user_id', $this->input->post('user_id'));
-			$query = $this->db->update($this->table_name, $data);
-			if (empty($query->row_array)): // If no user matches
+			$this->db->where('user_id', $user_id);
+			$result = $this->db->update($this->table_name, $data);
+			if ($result != FALSE): // If no user matches
 				return FALSE;
 			else: // If one user matches
 				return TRUE;
