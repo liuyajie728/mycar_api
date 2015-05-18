@@ -108,14 +108,15 @@
 			$payment_id = $this->input->post('payment_id')? $this->input->post('payment_id'): NULL;
 
 			$result = $this->order_model->update_status($type, $order_id, $status, $payment_id);
-			
 			// 若更新后订单属于已付款状态，则更新用户相应最新活动时间，不必检测是否更新成功。
+			/*
 			if (($status == '3') && ($result == TRUE)):
 				$order = $this->order_model->get($order_id);
 				$user_id = $order['user_id'];
 				$column = ($type == 'recharge')? 'time_last_recharge': 'time_last_consume';
 				@$update_last_activity = $this->user_model->update_certain($user_id, $column, date('Y-m-d H:i:s'));
 			endif;
+			*/
 		}
 	}
 

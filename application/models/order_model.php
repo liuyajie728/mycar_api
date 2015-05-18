@@ -80,7 +80,7 @@
 			if ($type == 'recharge'):
 				$this->table_name = 'order_recharge';
 				$data['amount'] = $this->input->post('amount');
-				$data['total'] = $data['amount'];
+				$data['total'] = $data['amount']; // 支付金额
 
 			else:
 				// Using default table_name.
@@ -88,7 +88,7 @@
 				$data['refuel_amount'] = $this->input->post('refuel_amount');
 				$data['shopping_amount'] = empty($this->input->post('shopping_amount'))? '0.00': $this->input->post('shopping_amount');
 				$data['amount'] = $data['refuel_amount'] + $data['shopping_amount']; // 折前订单额
-				$data['total'] = $data['refuel_amount'] + $data['shopping_amount']; // 折后订单额
+				$data['total'] = $data['refuel_amount'] + $data['shopping_amount']; // 折后订单额(支付金额)
 
 			endif;
 

@@ -29,8 +29,8 @@
 		*/
 		public function index()
 		{
-			$comment_id = $this->input->post('comment_id')? $this->input->post('comment_id'): NULL;
-			$comment = $this->comment_model->get($comment_id);
+			$order_id = $this->input->post('order_id')? $this->input->post('order_id'): NULL;
+			$comment = $this->comment_model->get_by_order($order_id);
 
 			if (!empty($comment)):
 				$output['status'] = 200;
