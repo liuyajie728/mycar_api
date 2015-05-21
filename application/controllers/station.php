@@ -36,7 +36,7 @@
 				$output['content'] = $station;
 			else:
 				$output['status'] = 400;
-				$output['content'] = '加油站品牌获取失败！';
+				$output['content'] = '未找到加油站！';
 			endif;
 
 			header("Content-type:application/json;charset=utf-8");

@@ -14,8 +14,8 @@
 			parent::__construct();
 			
 			$this->load->library('token');
-			//$token = $this->input->post('token');
-			//$this->token->valid($token);
+			$token = $this->input->post('token');
+			$this->token->valid($token);
 
 			$this->load->model('article_model');
 		}
@@ -30,8 +30,8 @@
 		public function index()
 		{
 			$article_id = $this->input->post('article_id')? $this->input->post('article_id'): NULL;
-
 			$article = $this->article_model->get($article_id);
+
 			if (!empty($article)):
 				$output['status'] = 200;
 				$output['content'] = $article;

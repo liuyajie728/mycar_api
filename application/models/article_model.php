@@ -17,15 +17,18 @@
 		*/
 		public function get($article_id = NULL)
 		{
+			$data = array(
+				'status >' => '0' // 仅获取非草稿文件
+			);
 			if ($article_id === NULL):
 				$this->db->order_by('time_create desc');
-				$query = $this->db->get($this->table_name);
+				$query = $this->db->get_where($this->table_name, $data);
 				return $query->result_array();
 				
 			else:
 				$this->db->where('article_id', $article_id);
 				$this->db->or_where('nicename', $article_id); 
-				$query = $this->db->get($this->table_name);
+				$query = $this->db->get_where($this->table_name, $data);
 				return $query->row_array();
 
 			endif;
