@@ -45,6 +45,24 @@
 			echo $output_json;
 		}
 
+		public function index_by_station()
+		{
+			$station_id = $this->input->post('station_id')? $this->input->post('station_id'): NULL;
+			$comment = $this->comment_model->get_by_station($station_id);
+
+			if (!empty($comment)):
+				$output['status'] = 200;
+				$output['content'] = $comment;
+			else:
+				$output['status'] = 400;
+				$output['content'] = '未找到相应评论！';
+			endif;
+
+			header("Content-type:application/json;charset=utf-8");
+			$output_json = json_encode($output);
+			echo $output_json;
+		}
+		
 		/**
 		* Create comment according to order_id provided.
 		*

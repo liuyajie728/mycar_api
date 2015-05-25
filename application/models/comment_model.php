@@ -31,16 +31,19 @@
 			endif;
 		}
 		
+		public function get_by_station($station_id = NULL)
+		{
+			$data['station_id'] = $station_id;
+			// 需根据每条评论的user_id从user表中获取用户nickname及logo_url
+			$this->db->select($this->table_name.'.*, user.nickname as user_nickname, user.logo_url as user_logo_url');
+			$this->db->join('user', 'comment.user_id = user.user_id', 'left outer');
+			$query = $this->db->get_where($this->table_name, $data);
+			return $query->result_array();
+		}
+
 		public function get_by_order($order_id = NULL)
 		{
 			$data['order_id'] = $order_id;
-			$query = $this->db->get_where($this->table_name, $data);
-			return $query->row_array();
-		}
-		
-		public function get_by_station_id($station_id = NULL)
-		{
-			$data['station_id'] = $station_id;
 			$query = $this->db->get_where($this->table_name, $data);
 			return $query->row_array();
 		}

@@ -27,6 +27,7 @@
 	/* Comment */
 	$route['comment/create'] = 'comment/create'; // 评价订单
 	$route['comment/append'] = 'comment/append'; // 追加评价
+	$route['comment/station'] = 'comment/index_by_station';
 	$route['comment'] = 'comment/index';
 
 	/* User 会员 */

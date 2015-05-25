@@ -31,7 +31,7 @@
 
 				if (!empty($longitude) && !empty($longitude)):
 					// 根据传入的经纬度计算每个加油站与该点的距离，并将计算结果作为distance字段写入返回结果
-					$this->db->select('station_id, brand_id, name, latitude, longitude, district, address, image_url, rate_oil, rate_service,
+					$this->db->select('station_id, brand_id, name, latitude, longitude, province, city, district, address, tel, image_url, rate_oil, rate_service,
 					ROUND(6371.392896*2*ASIN(SQRT(POW(SIN(('.$latitude.'*PI()/180-latitude*PI()/180)/2),2)+COS('.$latitude.'*PI()/180)*COS(latitude*PI()/180)*POW(SIN(('.$longitude.'*PI()/180-longitude*PI()/180)/2),2)))*1000)
 					AS distance', FALSE);
 					$this->db->order_by('distance');

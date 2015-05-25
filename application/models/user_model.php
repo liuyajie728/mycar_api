@@ -56,11 +56,13 @@
 		* Create new user
 		*
 		* @since always
+		* @param string $mobile
 		* @return int User_id
 		*/
 		public function create($mobile)
 		{
 			$data['mobile'] = $mobile;
+			$data['nickname'] = 'i_'. $mobile; // 新用户默认昵称
 			if ($this->db->insert($this->table_name, $data)):
 				return $this->db->insert_id();
 			endif;
