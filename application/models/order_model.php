@@ -22,6 +22,10 @@
 				$data['user_id'] = $this->input->post('user_id');
 			endif;
 
+			// 获取订单详情的同时也获取消费加油站的信息
+			$this->db->select($this->table_name.'.*, station.name as station_name, station.brand_id as station_brand_id, station.image_url as station_image_url, station.province as station_province, station.city as station_city, station.province as station_address, station.tel as station_tel');
+			$this->db->join('station', $this->table_name.'.station_id = station.station_id', 'left outer');
+
 			if ($order_id === NULL):
 				$this->db->order_by('time_create desc');
 				$this->db->order_by('status desc');
@@ -97,12 +101,13 @@
 			endif;
 		}
 
-		public function update_status($type, $order_id, $status, $payment_id = NULL)
+		public function update_status($type, $order_id, $status, $payment_type = NULL, $payment_id = NULL)
 		{
 			if ($type == 'recharge'):
 				$this->table_name = 'order_recharge';
 			endif;
 
+			// 若需将订单状态更改为已付款，需传入type、
 			if ($status == '3'):
 				if ($type == 'consume'):
 					// 根据order_id获取相关station_id
@@ -113,10 +118,13 @@
 					$order_code_result = $this->get_station_code($station_id);
 					$data['order_code'] = $order_code_result['order_code'];
 				endif;
-				$data['status'] = $status;
+				
+				$data['payment_type'] = $payment_type;
+				$data['payment_id'] = $payment_id;
 				$data['time_payed'] = date('Y-m-d H:i:s');
 			endif;
-
+			
+			$data['status'] = $status;
 			$this->db->where('order_id', $order_id);
 			return $this->db->update($this->table_name, $data);
 		}

@@ -2,8 +2,6 @@
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 
 	/* Order 订单 */
-	$route['order/edit/(:any)'] = 'order/edit/$1';
-	$route['order/delete/(:any)'] = 'order/delete/$1';
 	$route['order/update_status'] = 'order/update_status';
 	$route['order/create'] = 'order/create';
 	$route['order/consume/(:any)'] = 'order/index/$1';

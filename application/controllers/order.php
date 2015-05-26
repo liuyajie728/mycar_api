@@ -30,8 +30,13 @@
 				$output['status'] = 200;
 				$output['content'] = $order;
 			else:
-				$output['status'] = 400;
-				$output['content'] = '消费订单获取失败！';
+				if (empty($order)):
+					$output['status'] = 401;
+					$output['content'] = '该用户未创建过消费订单！';
+				else:
+					$output['status'] = 400;
+					$output['content'] = '消费订单获取失败！';
+				endif;
 			endif;
 
 			header("Content-type:application/json;charset=utf-8");
@@ -49,8 +54,13 @@
 				$output['status'] = 200;
 				$output['content'] = $order;
 			else:
-				$output['status'] = 400;
-				$output['content'] = '充值订单获取失败！';
+				if (empty($order)):
+					$output['status'] = 401;
+					$output['content'] = '该用户未创建过充值订单！';
+				else:
+					$output['status'] = 400;
+					$output['content'] = '充值订单获取失败！';
+				endif;
 			endif;
 			
 			header("Content-type:application/json;charset=utf-8");
@@ -105,16 +115,17 @@
 			$type = $this->input->post('type');
 			$order_id = $this->input->post('order_id');
 			$status = $this->input->post('status');
-			$payment_id = $this->input->post('payment_id')? $this->input->post('payment_id'): NULL;
+			$payment_type = $this->input->post('payment_type')? $this->input->post('payment_type'): NULL; // 支付类型
+			$payment_id = $this->input->post('payment_id')? $this->input->post('payment_id'): NULL; // 支付流水
 
-			$result = $this->order_model->update_status($type, $order_id, $status, $payment_id);
+			$result = $this->order_model->update_status($type, $order_id, $status, $payment_type, $payment_id);
 			// 若更新后订单属于已付款状态，则更新用户相应最新活动时间，不必检测是否更新成功。
 			/*
 			if (($status == '3') && ($result == TRUE)):
 				$order = $this->order_model->get($order_id);
 				$user_id = $order['user_id'];
 				$column = ($type == 'recharge')? 'time_last_recharge': 'time_last_consume';
-				@$update_last_activity = $this->user_model->update_certain($user_id, $column, date('Y-m-d H:i:s'));
+				@$this->user_model->update_certain($user_id, $column, date('Y-m-d H:i:s'));
 			endif;
 			*/
 		}

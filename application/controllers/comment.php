@@ -72,11 +72,11 @@
 		*/
 		public function create()
 		{
-			$rate_oil = !empty($this->input->post('rate_oil'))? $this->input->post('rate_oil'): NULL;
-			$rate_service = !empty($this->input->post('rate_service'))? $this->input->post('rate_service'): NULL;
-			$content = !empty($this->input->post('content'))? $this->input->post('content'): NULL;
-			
 			$order_id = $this->input->post('order_id');
+			$rate_oil = $this->input->post('rate_oil');
+			$rate_service = $this->input->post('rate_service');
+			$content = !empty($this->input->post('content'))? $this->input->post('content'): NULL;
+
 			$result = $this->comment_model->create($order_id, $rate_oil, $rate_service, $content);
 
 			if ($result == TRUE):
@@ -102,9 +102,9 @@
 		public function append()
 		{
 			// Check if params are valid and not harmful.
+			$comment_id = $this->input->post('comment_id');
 			$append = $this->input->post('append');
 
-			$comment_id = $this->input->post('comment_id');
 			$result = $this->comment_model->append($comment_id, $append);
 
 			if ($result == TRUE):

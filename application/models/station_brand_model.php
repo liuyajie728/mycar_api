@@ -1,7 +1,7 @@
 <?php
 	class station_brand_model extends CI_Model
 	{
-		public $table_name = 'station_brand';
+		public $table_name = 'brand';
 		
 		//初始化模型
 		public function __construct()
