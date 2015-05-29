@@ -69,12 +69,12 @@
 		}
 
 		/**
-		* NOT FINISHED. Update user profile
+		* NOT FINISHED. Update all user datas
 		*
 		* @since always
 		* @return boolean
 		*/
-		public function update()
+		public function update_all()
 		{
 			$data = array(
 				'nickname' => $this->input->post('nickname'),
@@ -94,11 +94,14 @@
 				return TRUE;
 			endif;
 		}
-		
+
 		/**
 		* Update certain user data
 		*
 		* @since always
+		* @param int $user_id
+		* @param string $column
+		* @param string $value
 		* @return boolean
 		*/
 		public function update_certain($user_id, $column, $value)

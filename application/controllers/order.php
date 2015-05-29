@@ -88,7 +88,7 @@
 				// return created order if succeed.
 				$output['status'] = 200;
 				if ($type == 'recharge'):
-					$order = $this->order_model->get_recharge($order_id);
+					$order = $this->order_model->get_recharge($order_id, $user_id);
 				else:
 					$order = $this->order_model->get($order_id);
 				endif;

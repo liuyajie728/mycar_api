@@ -48,14 +48,49 @@
 		}
 		
 		/**
-		* NOT FINISHED. User profile edit.
+		* NOT FINISHED. User data update.
 		*
 		* @since always
 		* @return boolean Result of profile edit.
 		*/
-		public function edit()
+		public function update()
 		{
-			$this->output->enable_profiler(TRUE);
+			$user_id = $this->input->post('user_id');
+			$column = $this->input->post('column');
+			$value = $this->input->post('value');
+			
+			$result = $this->user_model->update_certain($user_id, $column, $value);
+			if ($result != FALSE):
+				$output['status'] = 200;
+				$output['content'] = $column. '修改成功！';
+			else:
+				$output['status'] = 400;
+				$output['content'] = $column. '修改失败！';
+			endif;
+			
+			//未完成 批量修改用户信息
+			/*
+			$new_datas = $this->input->post('new_datas');
+			foreach($new_datas as $data):
+				$single_result = $this->user_model->update_certain($user_id, $data['column'], $data['$value']);
+				if ($single_result == TRUE):
+					$output['content'] .= $column. '修改成功！';
+				else:
+					
+					$output['content'] .= $column. '修改失败！';
+				endif;
+			endforeach;
+			
+			if(strstr($output['content'], '修改失败！') == FALSE):
+				$output['status'] = 200;
+			else:
+				$output['status'] = 400;
+			endif;
+			*/
+			
+			header("Content-type:application/json;charset=utf-8");
+			$output_json = json_encode($output);
+			echo $output_json;
 		}
 		
 		/**

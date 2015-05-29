@@ -50,8 +50,8 @@
 		public function get_recharge($order_id = NULL, $user_id = NULL)
 		{
 			$this->table_name = 'order_recharge';
-			
-			($user_id != NULL)? $data['user_id'] = $user_id: $data = array();
+
+			$data['user_id'] = $user_id;
 
 			if ($order_id === NULL):
 				$this->db->order_by('time_create desc');

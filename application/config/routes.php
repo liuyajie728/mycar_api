@@ -30,8 +30,7 @@
 
 	/* User 会员 */
 	$route['user/login'] = 'user/login';
-	$route['user/edit/(:any)'] = 'user/edit/$1';
-	$route['user/delete/(:any)'] = 'user/delete/$1';
+	$route['user/update'] = 'user/update';
 	$route['user/(:any)'] = 'user/index/$1';
 	$route['user'] = 'user/index';
 
