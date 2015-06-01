@@ -1,6 +1,6 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
-	
+
 	/**
 	* User Class
 	*
@@ -46,28 +46,37 @@
 			$output_json = json_encode($output);
 			echo $output_json;
 		}
-		
+
 		/**
-		* NOT FINISHED. User data update.
+		* User certain data update.
 		*
 		* @since always
 		* @return boolean Result of profile edit.
 		*/
 		public function update()
 		{
-			$user_id = $this->input->post('user_id');
-			$column = $this->input->post('column');
-			$value = $this->input->post('value');
-			
-			$result = $this->user_model->update_certain($user_id, $column, $value);
-			if ($result != FALSE):
-				$output['status'] = 200;
-				$output['content'] = $column. '修改成功！';
+			$column = $this->input->post('column'); // 待修改的用户信息字段名
+
+			//只允许修改以下字段：nickname,lastname,firstname,gender,dob,logo_url,email,wechat_open_id
+			$column_to_update[] = $column;
+			$update_allowed = array('nickname', 'lastname', 'firstname', 'gender', 'dob', 'logo_url', 'email', 'wechat_open_id');
+			if ( empty(array_intersect($column_to_update, $update_allowed)) ): // 求待修改的字段是否与可修改的字段存在交集
+				$output['status'] = 401;
+				$output['content'] = $column. '不可被修改，请参考相关API文档！';
+
 			else:
-				$output['status'] = 400;
-				$output['content'] = $column. '修改失败！';
+				$user_id = $this->input->post('user_id'); // 待修改信息用户的user_id
+				$value = $this->input->post('value'); // 待修改的用户信息字段值
+
+				$result = $this->user_model->update_certain($user_id, $column, $value);
+				if ($result !== FALSE):
+					$output['status'] = 200;
+					$output['content'] = $column. '修改成功！';
+				else:
+					$output['status'] = 400;
+					$output['content'] = $column. '修改失败！';
+				endif;
 			endif;
-			
 			//未完成 批量修改用户信息
 			/*
 			$new_datas = $this->input->post('new_datas');
@@ -92,7 +101,7 @@
 			$output_json = json_encode($output);
 			echo $output_json;
 		}
-		
+
 		/**
 		* User Login
 		*

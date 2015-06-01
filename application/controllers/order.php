@@ -12,7 +12,7 @@
 		public function __construct()
 		{
 			parent::__construct();
-			
+
 			$this->load->library('token');
 			$token = $this->input->post('token');
 			$this->token->valid($token);
@@ -78,7 +78,7 @@
 		public function create()
 		{
 			$user_id = $this->input->post('user_id');
-			$user_ip = $this->input->post('user_ip');
+			$user_ip = $this->input->post('user_ip')? $this->input->post('user_ip'): $this->input->ip_address();
 			$type = $this->input->post('type');
 
 			// generate order

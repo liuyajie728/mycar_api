@@ -2,13 +2,13 @@
 	class User_model extends CI_Model
 	{
 		public $table_name = 'user';
-		
+
 		// Initiate database
 		public function __construct()
 		{
 			$this->load->database();
 		}
-		
+
 		/** Get all users, or get certain user by user_id
 		*
 		* @since always
@@ -110,9 +110,9 @@
 			$this->db->where('user_id', $user_id);
 			$result = $this->db->update($this->table_name, $data);
 			if ($result != FALSE): // If no user matches
-				return FALSE;
-			else: // If one user matches
 				return TRUE;
+			else: // If one user matches
+				return FALSE;
 			endif;
 		}
 	}

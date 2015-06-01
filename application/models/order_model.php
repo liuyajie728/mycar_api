@@ -83,8 +83,8 @@
 
 			if ($type == 'recharge'):
 				$this->table_name = 'order_recharge';
-				$data['amount'] = $this->input->post('amount');
-				$data['total'] = $data['amount']; // 支付金额
+				$data['amount'] = $this->input->post('total');
+				$data['total'] = $this->input->post('total'); // 支付金额
 
 			else:
 				// Using default table_name.
