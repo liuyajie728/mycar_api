@@ -89,6 +89,7 @@
 			else:
 				// Using default table_name.
 				$data['station_id'] = $this->input->post('station_id');
+				$data['stuff_id'] = $this->input->post('stuff_id');
 				$data['refuel_amount'] = $this->input->post('refuel_amount');
 				$data['shopping_amount'] = empty($this->input->post('shopping_amount'))? '0.00': $this->input->post('shopping_amount');
 				$data['amount'] = $data['refuel_amount'] + $data['shopping_amount']; // 折前订单额
@@ -113,7 +114,7 @@
 					// 根据order_id获取相关station_id
 					$order_result = $this->get($order_id, 'inner'); //Avoid user_id requirement.
 					$station_id = $order_result['station_id'];
-					
+
 					// 根据station_id获取相关加油站order_code
 					$order_code_result = $this->get_station_code($station_id);
 					$data['order_code'] = $order_code_result['order_code'];
@@ -123,7 +124,7 @@
 				$data['payment_id'] = $payment_id;
 				$data['time_payed'] = date('Y-m-d H:i:s');
 			endif;
-			
+
 			$data['status'] = $status;
 			$this->db->where('order_id', $order_id);
 			return $this->db->update($this->table_name, $data);

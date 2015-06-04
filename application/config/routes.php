@@ -1,6 +1,8 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 
+	$route['meta'] = 'meta/index';
+
 	/* Order 订单 */
 	$route['order/update_status'] = 'order/update_status';
 	$route['order/create'] = 'order/create';
