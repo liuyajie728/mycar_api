@@ -2,9 +2,7 @@
 /**
 * 	配置账号信息
 */
-//$wepay_base_url_web = 'http://web.irefuel.cn/'; // 公众号内支付所用文件URL
-$wepay_base_url_web = 'http://www.jiayoucar.com/web/';
-$wepay_base_url_server = 'http://api.irefuel.cn/'; // 应用内支付所用文件URL
+$wepay_base_url = 'http://api.irefuel.cn/'; // 公众号内支付所用文件URL
 
 class WxPayConf_pub
 {
@@ -20,16 +18,16 @@ class WxPayConf_pub
 
 	//=======【JSAPI路径设置】===================================
 	//获取access_token过程中的跳转uri，通过跳转将code传入jsapi支付页面
-	const JS_API_CALL_URL = $wepay_base_url_web. 'wepay/demo/js_api_call.php';
+	const JS_API_CALL_URL = $wepay_base_url. 'wepay/demo/js_api_call.php';
 
 	//=======【证书路径设置】=====================================
 	//证书路径,注意应该填写绝对路径
-	const SSLCERT_PATH = $wepay_base_url_web. 'wepay/demo/WxPayPubHelper/cacert/apiclient_cert.pem';
-	const SSLKEY_PATH = $wepay_base_url_web. 'wepay/demo/WxPayPubHelper/cacert/apiclient_key.pem';
-	
+	const SSLCERT_PATH = $wepay_base_url. 'wepay/demo/WxPayPubHelper/cacert/apiclient_cert.pem';
+	const SSLKEY_PATH = $wepay_base_url. 'wepay/demo/WxPayPubHelper/cacert/apiclient_key.pem';
+
 	//=======【异步通知url设置】===================================
 	//异步通知url，商户根据实际开发过程设定
-	const NOTIFY_URL = $wepay_base_url_web. 'wepay/demo/notify_url.php';
+	const NOTIFY_URL = $wepay_base_url. 'wepay/demo/notify_url.php';
 
 	//=======【curl超时设置】===================================
 	//本例程通过curl使用HTTP POST方法，此处可修改其超时时间，默认为30秒

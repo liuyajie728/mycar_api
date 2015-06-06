@@ -1,6 +1,11 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 
+	$route['wepay/unified_order'] = 'wepay/unified_order';
+	$route['wepay/notify'] = 'wepay/notify';
+	$route['wepay'] = 'wepay/index';
+	
+	/* 应用信息 */
 	$route['meta'] = 'meta/index';
 
 	/* Order 订单 */

@@ -23,7 +23,7 @@
  * 		formatBizQueryParaMap(),格式化参数，签名过程需要用到
  * 		getSign(),生成签名
  * 		arrayToXml(),array转xml
- * 		xmlToArray(),xml转 array
+ * 		xmlToArray(),xml转array
  * 		postXmlCurl(),以post方式提交xml到对应的接口url
  * 		postXmlSSLCurl(),使用证书，以post方式提交xml到对应的接口url
 */
@@ -72,9 +72,8 @@ class Common_util_pub
 		ksort($paraMap);
 		foreach ($paraMap as $k => $v):
 			if($urlencode):
-			   $v = urlencode($v);
-		   	endif;
-			//$buff .= strtolower($k) . "=" . $v . "&";
+				$v = urlencode($v);
+			endif;
 			$buff .= $k. '='. $v. '&';
 		endforeach;
 		$reqPar;
@@ -94,17 +93,13 @@ class Common_util_pub
 		endforeach;
 		//签名步骤一：按字典序排序参数
 		ksort($Parameters);
-		$String = $this->formatBizQueryParaMap($Parameters, false);
-		//echo '【string1】'.$String.'</br>';
+		$String = $this->formatBizQueryParaMap($Parameters, FALSE);
 		//签名步骤二：在string后加入KEY
 		$String = $String. '&key='. WxPayConf_pub::KEY;
-		//echo "【string2】".$String."</br>";
 		//签名步骤三：MD5加密
 		$String = md5($String);
-		//echo "【string3】 ".$String."</br>";
 		//签名步骤四：所有字符转为大写
 		$result_ = strtoupper($String);
-		//echo "【result】 ".$result_."</br>";
 		return $result_;
 	}
 	
@@ -114,14 +109,12 @@ class Common_util_pub
 	function arrayToXml($arr)
     {
         $xml = '<xml>';
-        foreach ($arr as $key=>$val):
-        	 if (is_numeric($val))
-        	 {
-        	 	$xml .= '<'. $key. '>'. $val. '</'. $key. '>'; 
-
-        	 }
-        	 else
+        foreach ($arr as $key => $val):
+        	if (is_numeric($val)):
+        	 	$xml .= '<'. $key. '>'. $val. '</'. $key. '>';
+			else:
         	 	$xml .= '<'. $key. '><![CDATA['. $val. ']]></'. $key. '>';  
+			endif;
         endforeach;
         $xml .= '</xml>';
         return $xml; 
@@ -140,7 +133,7 @@ class Common_util_pub
 	/**
 	 * 	作用：以post方式提交xml到对应的接口url
 	 */
-	public function postXmlCurl($xml,$url,$second=30)
+	public function postXmlCurl($xml, $url, $second = 30)
 	{		
         //初始化curl        
        	$ch = curl_init();
@@ -149,9 +142,9 @@ class Common_util_pub
         //这里设置代理，如果有的话
         //curl_setopt($ch,CURLOPT_PROXY, '8.8.8.8');
         //curl_setopt($ch,CURLOPT_PROXYPORT, 8080);
-        curl_setopt($ch,CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 		//设置header
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		//要求结果为字符串且输出到屏幕上
@@ -163,25 +156,22 @@ class Common_util_pub
         $data = curl_exec($ch);
 		curl_close($ch);
 		//返回结果
-		if($data)
-		{
+		if ($data):
 			curl_close($ch);
 			return $data;
-		}
-		else 
-		{ 
+		else:
 			$error = curl_errno($ch);
-			echo "curl出错，错误码:$error"."<br>"; 
-			echo '<a href="http://curl.haxx.se/libcurl/c/libcurl-errors.html">错误原因查询</a></br>';
+			echo 'curl出错，错误码:'. $error. '<br>'; 
+			echo '<a href="http://curl.haxx.se/libcurl/c/libcurl-errors.html">错误原因查询</a><br>';
 			curl_close($ch);
-			return false;
-		}
+			return FALSE;
+		endif;
 	}
 
 	/**
 	 * 	作用：使用证书，以post方式提交xml到对应的接口url
 	 */
-	function postXmlSSLCurl($xml, $url, $second=30)
+	function postXmlSSLCurl($xml, $url, $second = 30)
 	{
 		$ch = curl_init();
 		//超时时间
@@ -209,17 +199,16 @@ class Common_util_pub
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 		$data = curl_exec($ch);
 		//返回结果
-		if($data){
+		if ($data):
 			curl_close($ch);
 			return $data;
-		}
-		else { 
+		else:
 			$error = curl_errno($ch);
-			echo "curl出错，错误码:$error"."<br>"; 
-			echo '<a href="http://curl.haxx.se/libcurl/c/libcurl-errors.html">错误原因查询</a></br>';
+			echo 'curl出错，错误码:'. $error. '<br>'; 
+			echo '<a href="http://curl.haxx.se/libcurl/c/libcurl-errors.html">错误原因查询</a><br>';
 			curl_close($ch);
-			return false;
-		}
+			return FALSE;
+		endif;
 	}
 	
 	/**
@@ -239,16 +228,16 @@ class Common_util_pub
  */
 class Wxpay_client_pub extends Common_util_pub 
 {
-	var $parameters; //请求参数，类型为关联数组
+	public $parameters; //请求参数，类型为关联数组
 	public $response; //微信返回的响应
 	public $result; //返回参数，类型为关联数组
-	var $url; //接口链接
-	var $curl_timeout;//curl超时时间
+	public $url; //接口链接
+	public $curl_timeout; //curl超时时间
 	
 	/**
 	 * 	作用：设置请求参数
 	 */
-	function setParameter($parameter, $parameterValue)
+	public function setParameter($parameter, $parameterValue)
 	{
 		$this->parameters[$this->trimString($parameter)] = $this->trimString($parameterValue);
 	}
@@ -262,7 +251,7 @@ class Wxpay_client_pub extends Common_util_pub
 	   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID;//商户号
 	    $this->parameters['nonce_str'] = $this->createNoncestr();//随机字符串
 	    $this->parameters['sign'] = $this->getSign($this->parameters);//签名
-	    return  $this->arrayToXml($this->parameters);
+	    return $this->arrayToXml($this->parameters);
 	}
 	
 	/**
@@ -301,14 +290,14 @@ class Wxpay_client_pub extends Common_util_pub
  */
 class UnifiedOrder_pub extends Wxpay_client_pub
 {	
-	function __construct() 
+	function __construct()
 	{
 		//设置接口链接
 		$this->url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 		//设置curl超时时间
 		$this->curl_timeout = WxPayConf_pub::CURL_TIMEOUT;
 	}
-	
+
 	/**
 	 * 生成接口参数xml
 	 */
@@ -317,19 +306,29 @@ class UnifiedOrder_pub extends Wxpay_client_pub
 		try
 		{
 			//检测必填参数
-			if($this->parameters['out_trade_no'] == NULL) 
+			if ($this->parameters['out_trade_no'] == NULL) 
 			{
 				throw new SDKRuntimeException('缺少统一支付接口必填参数out_trade_no！<br>');
-			}elseif($this->parameters['body'] == NULL){
+			}
+			elseif ($this->parameters['body'] == NULL)
+			{
 				throw new SDKRuntimeException('缺少统一支付接口必填参数body！<br>');
-			}elseif ($this->parameters['total_fee'] == NULL){
+			}
+			elseif ($this->parameters['total_fee'] == NULL)
+			{
 				throw new SDKRuntimeException('缺少统一支付接口必填参数total_fee！<br>');
-			}elseif ($this->parameters['notify_url'] == NULL){
+			}
+			elseif ($this->parameters['notify_url'] == NULL)
+			{
 				throw new SDKRuntimeException('缺少统一支付接口必填参数notify_url！<br>');
-			}elseif ($this->parameters['trade_type'] == NULL){
+			}
+			elseif ($this->parameters['trade_type'] == NULL)
+			{
 				throw new SDKRuntimeException('缺少统一支付接口必填参数trade_type！<br>');
-			}elseif ($this->parameters['trade_type'] == 'JSAPI' &&
-				$this->parameters['openid'] == NULL){
+			}
+			elseif ($this->parameters['trade_type'] == 'JSAPI' &&
+				$this->parameters['openid'] == NULL)
+			{
 				throw new SDKRuntimeException('统一支付接口中，缺少必填参数openid！trade_type为JSAPI时，openid为必填参数！<br>');
 			}
 		   	$this->parameters['appid'] = WxPayConf_pub::APPID; //公众账号ID
@@ -362,7 +361,7 @@ class UnifiedOrder_pub extends Wxpay_client_pub
  */
 class OrderQuery_pub extends Wxpay_client_pub
 {
-	function __construct() 
+	public function __construct() 
 	{
 		//设置接口链接
 		$this->url = 'https://api.mch.weixin.qq.com/pay/orderquery';
@@ -373,16 +372,15 @@ class OrderQuery_pub extends Wxpay_client_pub
 	/**
 	 * 生成接口参数xml
 	 */
-	function createXml()
+	public function createXml()
 	{
 		try
 		{
 			//检测必填参数
 			if($this->parameters['out_trade_no'] == NULL && 
-				$this->parameters['transaction_id'] == NULL) 
-			{
+				$this->parameters['transaction_id'] == NULL):
 				throw new SDKRuntimeException('订单查询接口中，out_trade_no、transaction_id至少填一个！<br>');
-			}
+			endif;
 		   	$this->parameters['appid'] = WxPayConf_pub::APPID; //公众账号ID
 		   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID; //商户号
 		    $this->parameters['nonce_str'] = $this->createNoncestr(); //随机字符串
@@ -452,7 +450,7 @@ class Refund_pub extends Wxpay_client_pub
 	/**
 	 * 	作用：获取结果，使用证书通信
 	 */
-	function getResult() 
+	public function getResult() 
 	{		
 		$this->postXmlSSL();
 		$this->result = $this->xmlToArray($this->response);
@@ -466,7 +464,7 @@ class Refund_pub extends Wxpay_client_pub
 class RefundQuery_pub extends Wxpay_client_pub
 {
 	
-	function __construct()
+	public function __construct()
 	{
 		//设置接口链接
 		$this->url = 'https://api.mch.weixin.qq.com/pay/refundquery';
@@ -477,7 +475,7 @@ class RefundQuery_pub extends Wxpay_client_pub
 	/**
 	 * 生成接口参数xml
 	 */
-	function createXml()
+	public function createXml()
 	{		
 		try 
 		{
@@ -488,11 +486,11 @@ class RefundQuery_pub extends Wxpay_client_pub
 			{
 				throw new SDKRuntimeException('退款查询接口中，out_refund_no、out_trade_no、transaction_id、refund_id四个参数必填一个！<br>');
 			}
-		   	$this->parameters['appid'] = WxPayConf_pub::APPID;//公众账号ID
-		   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID;//商户号
-		    $this->parameters['nonce_str'] = $this->createNoncestr();//随机字符串
-		    $this->parameters['sign'] = $this->getSign($this->parameters);//签名
-		    return  $this->arrayToXml($this->parameters);
+		   	$this->parameters['appid'] = WxPayConf_pub::APPID; //公众账号ID
+		   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID; //商户号
+		    $this->parameters['nonce_str'] = $this->createNoncestr(); //随机字符串
+		    $this->parameters['sign'] = $this->getSign($this->parameters); //签名
+		    return $this->arrayToXml($this->parameters);
 		}
 		catch (SDKRuntimeException $e)
 		{
@@ -503,7 +501,7 @@ class RefundQuery_pub extends Wxpay_client_pub
 	/**
 	 * 	作用：获取结果，使用证书通信
 	 */
-	function getResult() 
+	public function getResult() 
 	{		
 		$this->postXmlSSL();
 		$this->result = $this->xmlToArray($this->response);
@@ -516,7 +514,7 @@ class RefundQuery_pub extends Wxpay_client_pub
  */
 class DownloadBill_pub extends Wxpay_client_pub
 {
-	function __construct() 
+	public function __construct() 
 	{
 		//设置接口链接
 		$this->url = 'https://api.mch.weixin.qq.com/pay/downloadbill';
@@ -527,11 +525,11 @@ class DownloadBill_pub extends Wxpay_client_pub
 	/**
 	 * 生成接口参数xml
 	 */
-	function createXml()
+	public function createXml()
 	{		
 		try 
 		{
-			if($this->parameters['bill_date'] == NULL ) 
+			if ($this->parameters['bill_date'] == NULL)
 			{
 				throw new SDKRuntimeException('对账单接口中，缺少必填参数bill_date！<br>');
 			}
@@ -539,7 +537,7 @@ class DownloadBill_pub extends Wxpay_client_pub
 		   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID;//商户号
 		    $this->parameters['nonce_str'] = $this->createNoncestr();//随机字符串
 		    $this->parameters['sign'] = $this->getSign($this->parameters);//签名
-		    return  $this->arrayToXml($this->parameters);
+		    return $this->arrayToXml($this->parameters);
 		}
 		catch (SDKRuntimeException $e)
 		{
@@ -550,7 +548,7 @@ class DownloadBill_pub extends Wxpay_client_pub
 	/**
 	 * 	作用：获取结果，默认不使用证书
 	 */
-	function getResult() 
+	public function getResult() 
 	{		
 		$this->postXml();
 		$this->result = $this->xmlToArray($this->result_xml);
@@ -563,7 +561,7 @@ class DownloadBill_pub extends Wxpay_client_pub
  */
 class ShortUrl_pub extends Wxpay_client_pub
 {
-	function __construct() 
+	public function __construct() 
 	{
 		//设置接口链接
 		$this->url = 'https://api.mch.weixin.qq.com/tools/shorturl';
@@ -574,19 +572,18 @@ class ShortUrl_pub extends Wxpay_client_pub
 	/**
 	 * 生成接口参数xml
 	 */
-	function createXml()
+	public function createXml()
 	{		
 		try 
 		{
-			if($this->parameters['long_url'] == NULL ) 
-			{
-				throw new SDKRuntimeException('短链接转换接口中，缺少必填参数long_url！<br>');
-			}
-		   	$this->parameters['appid'] = WxPayConf_pub::APPID;//公众账号ID
-		   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID;//商户号
-		    $this->parameters['nonce_str'] = $this->createNoncestr();//随机字符串
-		    $this->parameters['sign'] = $this->getSign($this->parameters);//签名
-		    return  $this->arrayToXml($this->parameters);
+                    if($this->parameters['long_url'] == NULL):
+			throw new SDKRuntimeException('短链接转换接口中，缺少必填参数long_url！<br>');
+                    endif;
+		    $this->parameters['appid'] = WxPayConf_pub::APPID; //公众账号ID
+		    $this->parameters['mch_id'] = WxPayConf_pub::MCHID; //商户号
+		    $this->parameters['nonce_str'] = $this->createNoncestr(); //随机字符串
+		    $this->parameters['sign'] = $this->getSign($this->parameters); //签名
+		    return $this->arrayToXml($this->parameters);
 		}
 		catch (SDKRuntimeException $e)
 		{
@@ -597,7 +594,7 @@ class ShortUrl_pub extends Wxpay_client_pub
 	/**
 	 * 获取prepay_id
 	 */
-	function getShortUrl()
+	public function getShortUrl()
 	{
 		$this->postXml();
 		$prepay_id = $this->result['short_url'];
@@ -610,18 +607,18 @@ class ShortUrl_pub extends Wxpay_client_pub
  */
 class Wxpay_server_pub extends Common_util_pub 
 {
-	public $data;//接收到的数据，类型为关联数组
-	var $returnParameters;//返回参数，类型为关联数组
+	public $data; //接收到的数据，类型为关联数组
+	public $returnParameters; //返回参数，类型为关联数组
 	
 	/**
 	 * 将微信的请求xml转换成关联数组，以方便数据处理
 	 */
-	function saveData($xml)
+	public function saveData($xml)
 	{
 		$this->data = $this->xmlToArray($xml);
 	}
 	
-	function checkSign()
+	public function checkSign()
 	{
 		$tmpData = $this->data;
 		unset($tmpData['sign']);
@@ -635,7 +632,7 @@ class Wxpay_server_pub extends Common_util_pub
 	/**
 	 * 获取微信的请求数据
 	 */
-	function getData()
+	public function getData()
 	{		
 		return $this->data;
 	}
@@ -643,7 +640,7 @@ class Wxpay_server_pub extends Common_util_pub
 	/**
 	 * 设置返回微信的xml数据
 	 */
-	function setReturnParameter($parameter, $parameterValue)
+	public function setReturnParameter($parameter, $parameterValue)
 	{
 		$this->returnParameters[$this->trimString($parameter)] = $this->trimString($parameterValue);
 	}
@@ -651,7 +648,7 @@ class Wxpay_server_pub extends Common_util_pub
 	/**
 	 * 生成接口参数xml
 	 */
-	function createXml()
+	public function createXml()
 	{
 		return $this->arrayToXml($this->returnParameters);
 	}
@@ -659,7 +656,7 @@ class Wxpay_server_pub extends Common_util_pub
 	/**
 	 * 将xml数据返回微信
 	 */
-	function returnXml()
+	public function returnXml()
 	{
 		$returnXml = $this->createXml();
 		return $returnXml;
@@ -675,6 +672,25 @@ class Notify_pub extends Wxpay_server_pub
 }
 
 /**
+ * APP支付接口
+ */
+class AppCall_pub extends Wxpay_server_pub 
+{
+	public $parameters = array();
+	
+	public function generate($prepay_id) 
+	{
+		$this->parameters['prepay_id'] = $prepay_id;
+	   	$this->parameters['appid'] = WxPayConf_pub::APPID; //公众账号ID
+	   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID; //商户号
+		$this->parameters['package'] = 'Sign=WXPay';
+	   	$this->parameters['time_stamp'] = time(); //时间戳
+	    $this->parameters['nonce_str'] = $this->createNoncestr(); //随机字符串
+	    $this->parameters['sign'] = $this->getSign($this->parameters); //签名
+	}
+}
+
+/**
  * 请求商家获取商品信息接口
  */
 class NativeCall_pub extends Wxpay_server_pub
@@ -682,7 +698,7 @@ class NativeCall_pub extends Wxpay_server_pub
 	/**
 	 * 生成接口参数xml
 	 */
-	function createXml()
+	public function createXml()
 	{
 		if($this->returnParameters['return_code'] == 'SUCCESS'):
 		   	$this->returnParameters['appid'] = WxPayConf_pub::APPID; //公众账号ID
@@ -696,7 +712,7 @@ class NativeCall_pub extends Wxpay_server_pub
 	/**
 	 * 获取product_id
 	 */
-	function getProductId()
+	public function getProductId()
 	{
 		$product_id = $this->data['product_id'];
 		return $product_id;
@@ -708,17 +724,15 @@ class NativeCall_pub extends Wxpay_server_pub
  */
 class NativeLink_pub extends Common_util_pub
 {
-	var $parameters;//静态链接参数
-	var $url;//静态链接
+	public $parameters;//静态链接参数
+	public $url;//静态链接
 
-	function __construct() 
-	{
-	}
+	public function __construct(){}
 	
 	/**
 	 * 设置参数
 	 */
-	function setParameter($parameter, $parameterValue) 
+	public function setParameter($parameter, $parameterValue) 
 	{
 		$this->parameters[$this->trimString($parameter)] = $this->trimString($parameterValue);
 	}
@@ -726,18 +740,16 @@ class NativeLink_pub extends Common_util_pub
 	/**
 	 * 生成Native支付链接二维码
 	 */
-	function createLink()
+	public function createLink()
 	{
 		try 
 		{		
-			if($this->parameters['product_id'] == NULL) 
-			{
+			if($this->parameters['product_id'] == NULL):
 				throw new SDKRuntimeException('缺少Native支付二维码链接必填参数product_id！<br>');
-			}			
+			endif;
 		   	$this->parameters['appid'] = WxPayConf_pub::APPID; //公众账号ID
 		   	$this->parameters['mch_id'] = WxPayConf_pub::MCHID; //商户号
-		   	$time_stamp = time();
-		   	$this->parameters['time_stamp'] = $time_stamp; //时间戳
+		   	$this->parameters['time_stamp'] = time(); //时间戳
 		    $this->parameters['nonce_str'] = $this->createNoncestr(); //随机字符串
 		    $this->parameters['sign'] = $this->getSign($this->parameters); //签名    		
 			$bizString = $this->formatBizQueryParaMap($this->parameters, FALSE);
@@ -752,7 +764,7 @@ class NativeLink_pub extends Common_util_pub
 	/**
 	 * 返回链接
 	 */
-	function getUrl() 
+	public function getUrl() 
 	{		
 		$this->createLink();
 		return $this->url;
@@ -764,13 +776,13 @@ class NativeLink_pub extends Common_util_pub
 */
 class JsApi_pub extends Common_util_pub
 {
-	var $code;//code码，用以获取openid
-	var $openid;//用户的openid
-	var $parameters;//jsapi参数，格式为json
-	var $prepay_id;//使用统一支付接口得到的预支付id
-	var $curl_timeout;//curl超时时间
+	public $code;//code码，用以获取openid
+	public $openid;//用户的openid
+	public $parameters;//jsapi参数，格式为json
+	public $prepay_id;//使用统一支付接口得到的预支付id
+	public $curl_timeout;//curl超时时间
 
-	function __construct() 
+	public function __construct() 
 	{
 		//设置curl超时时间
 		$this->curl_timeout = WxPayConf_pub::CURL_TIMEOUT;
@@ -779,27 +791,27 @@ class JsApi_pub extends Common_util_pub
 	/**
 	 * 	作用：生成可以获得code的url
 	 */
-	function createOauthUrlForCode($redirectUrl)
+	public function createOauthUrlForCode($redirectUrl)
 	{
 		$urlObj['appid'] = WxPayConf_pub::APPID;
 		$urlObj['redirect_uri'] = $redirectUrl;
 		$urlObj['response_type'] = 'code';
 		$urlObj['scope'] = 'snsapi_base';
-		$urlObj['state'] = "STATE".'#wechat_redirect';
-		$bizString = $this->formatBizQueryParaMap($urlObj, false);
+		$urlObj['state'] = "STATE"."#wechat_redirect";
+		$bizString = $this->formatBizQueryParaMap($urlObj, FALSE);
 		return 'https://open.weixin.qq.com/connect/oauth2/authorize?'. $bizString;
 	}
 
 	/**
 	 * 	作用：生成可以获得openid的url
 	 */
-	function createOauthUrlForOpenid()
+	public function createOauthUrlForOpenid()
 	{
 		$urlObj['appid'] = WxPayConf_pub::APPID;
 		$urlObj['secret'] = WxPayConf_pub::APPSECRET;
 		$urlObj['code'] = $this->code;
 		$urlObj['grant_type'] = 'authorization_code';
-		$bizString = $this->formatBizQueryParaMap($urlObj, false);
+		$bizString = $this->formatBizQueryParaMap($urlObj, FALSE);
 		return 'https://api.weixin.qq.com/sns/oauth2/access_token?'. $bizString;
 	}
 	
@@ -807,7 +819,7 @@ class JsApi_pub extends Common_util_pub
 	/**
 	 * 	作用：通过curl向微信提交code，以获取openid
 	 */
-	function getOpenid()
+	public function getOpenid()
 	{
 		$url = $this->createOauthUrlForOpenid();
         //初始化curl
@@ -831,7 +843,7 @@ class JsApi_pub extends Common_util_pub
 	/**
 	 * 	作用：设置prepay_id
 	 */
-	function setPrepayId($prepayId)
+	public function setPrepayId($prepayId)
 	{
 		$this->prepay_id = $prepayId;
 	}
@@ -839,7 +851,7 @@ class JsApi_pub extends Common_util_pub
 	/**
 	 * 	作用：设置code
 	 */
-	function setCode($code_)
+	public function setCode($code_)
 	{
 		$this->code = $code_;
 	}
@@ -850,8 +862,7 @@ class JsApi_pub extends Common_util_pub
 	public function getParameters()
 	{
 		$jsApiObj['appid'] = WxPayConf_pub::APPID;
-		$timeStamp = time();
-	    $jsApiObj['timeStamp'] = $timeStamp;
+	    $jsApiObj['timeStamp'] = time();
 	    $jsApiObj['nonceStr'] = $this->createNoncestr();
 		$jsApiObj['package'] = 'prepay_id='. $this->prepay_id;
 	    $jsApiObj['signType'] = 'MD5';

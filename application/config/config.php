@@ -1,8 +1,17 @@
 <?php
 	if (!defined('BASEPATH')) exit('此文件不可被直接访问');
 	
-	date_default_timezone_set('Asia/Shanghai');
+	// Wepay Setups
+	define('WEPAY_APP_ID', 'wx9d3b0b10ea14382d');
+	define('WEPAY_MCH_ID', '1242431902');
+	define('WEPAY_KEY', 'mycar2014sensestrong201194118436');
+	define('WEPAY_APP_SECRET', '9c09b61d634ddfd77b3d9261ebea8a4d');
+	define('WEPAY_NOTIFY_URL', 'http://api.irefuel.cn/wepay/notify');
+	define('WEPAY_SSLCERT_PATH', 'http://api.irefuel.cn/cert/apiclient_cert.pem');
+	define('WEPAY_SSLKEY_PATH', 'http://api.irefuel.cn/cert/apiclient_key.pem');
 	
+	date_default_timezone_set('Asia/Shanghai');
+
 	/**
 	* Native CodeIgniter configs.
 	* @since always
