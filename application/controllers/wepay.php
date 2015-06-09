@@ -339,15 +339,18 @@
 			$this->parameters['total_fee'] = $total_fee * 100; // 默认以分为货币单位
 
 			$this->url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-		   	$this->parameters['appid'] = $this->app_id; //公众账号ID
-		   	$this->parameters['mch_id'] = $this->mch_id; //商户号
-		    $this->parameters['nonce_str'] = $this->createNoncestr(); //随机字符串
-			$this->parameters['spbill_create_ip'] = $_SERVER['REMOTE_ADDR']; //终端ip	
+		   	$this->parameters['appid'] = $this->app_id; // 公众账号ID
+		   	$this->parameters['mch_id'] = $this->mch_id; // 商户号
+		    $this->parameters['nonce_str'] = $this->createNoncestr(); // 随机字符串
+			$this->parameters['spbill_create_ip'] = $_SERVER['REMOTE_ADDR']; // 客户端IP
+			$current_timestamp = time();
+			$this->parameters['time_start'] = date('YmdHis', $current_timestamp); // 服务器生成订单的时间
+			$this->parameters['time_expire'] = date('YmdHis', $current_timestamp + 3*60);; // 订单失效的时间，默认为下单后3分钟
 			$this->parameters['notify_url'] = $this->notify_url;
 			$this->parameters['trade_type'] = $this->trade_type;
-		    $this->parameters['sign'] = $this->getSign($this->parameters); //签名
+		    $this->parameters['sign'] = $this->getSign($this->parameters); // 根据以上参数生成的签名
 		    $xml = $this->arrayToXml($this->parameters);
-			
+
 			$this->postXml($xml);
 			$this->result = $this->xmlToArray($this->response);
 			$prepay_id = $this->result['prepay_id'];
@@ -356,7 +359,7 @@
 			$return_parameters['partnerid'] = $this->mch_id;
 			$return_parameters['noncestr'] = $this->createNoncestr();
 			$return_parameters['package'] = 'Sign=WXPay';
-			$return_parameters['timestamp'] = time();
+			$return_parameters['timestamp'] = $current_timestamp;
 			$return_parameters['sign'] = $this->getSign($return_parameters);
 
 			// 输出返回的json

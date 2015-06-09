@@ -62,7 +62,7 @@
 		public function create($mobile)
 		{
 			$data['mobile'] = $mobile;
-			$data['nickname'] = 'i_'. $mobile; // 新用户默认昵称
+			$data['nickname'] = 'i_'. substr($mobile,-8); // 新用户默认昵称为“i_”加上注册手机号后8位
 			if ($this->db->insert($this->table_name, $data)):
 				return $this->db->insert_id();
 			endif;
