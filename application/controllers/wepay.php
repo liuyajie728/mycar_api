@@ -35,7 +35,7 @@
 			
 			$this->load->library('token');
 			$token = $this->input->post('token');
-			//$this->token->valid($token);
+			$this->token->valid($token);
 		}
 
 /**
